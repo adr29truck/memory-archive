@@ -17,6 +17,8 @@ class Server < Sinatra::Base
     if @logged_in != nil
       @groups = UserClass.where(user_id: @logged_in).join(:classes, id: :class_id).all.objectify('Classes')
     end
+
+    SassCompiler.compile
   end
 
   get '/' do

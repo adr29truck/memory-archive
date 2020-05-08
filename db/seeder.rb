@@ -62,6 +62,7 @@ def reset_database!
   end
 
   puts 'Seeder run'
+  puts 'Created tables'
 end
 
 def insert_data
