@@ -42,8 +42,8 @@ html lang="en"
                 - @groups.each do |group|
                   a.navbar-item href="/?group_id=#{group.id}"
                     | #{group.name}
-              a.navbar-item href="/post/create"
-                | Add memmory
+            a.navbar-item href="/post/create"
+              | Add memmory
           .navbar-item.has-dropdown.is-hoverable
             a.navbar-link onclick="expandNav(this)"
               | More
