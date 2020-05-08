@@ -86,7 +86,11 @@ class Server < Sinatra::Base
     if x == user
       session[:user_id] = x.id
       session[:admin] = x.admin == 1
-      session[:class_id] = UserClass.fetch.where(user_id: x.id).all.objectify('UserClass').first.class_id
+      begin
+        session[:class_id] = UserClass.fetch.where(user_id: x.id).all.objectify('UserClass').first.class_id
+      rescue
+        session[:error_message] = 'No groups.'
+      end
     else
       session[:error_message] = 'Fel epostadress eller lösendord.'
       redirect '/login'
