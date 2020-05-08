@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     append: 'figure',
     status: '.scroller-status',
     hideNav: '.pagination',
+    prefill: true,
   });
 });
 
@@ -38,7 +39,6 @@ function modalShow(el) {
 function modalHide(el) {
   $(el).parent()[0].style.display = 'none';
 }
-
 
 
 function getFileData(myFile) {
@@ -52,44 +52,12 @@ function getFileData(myFile) {
   $(myFile).parent().find('.file-label')[0].innerHTML = filename
 }
 
-// function hideModal() {
-//   $('#cookie')[0].style.display = 'none'
-// }
 
 function expandNav(el) {
   $(el).parent().children()[1].classList.toggle('expanded')
 }
 
-// function draftToggle(el){
-//   if ($(el).parent().parent().find('button')[0].innerHTML == 'Spara utkast') {
-//     $(el).parent().parent().find('button')[0].innerHTML = 'Publicera'
-//     $(el).parent().parent().find('button')[0].classList.add('is-danger')
-//     $(el).parent().parent().find('button')[0].classList.remove('is-link')
-//   } else {
-//     $(el).parent().parent().find('button')[0].innerHTML = 'Spara utkast'
-//     $(el).parent().parent().find('button')[0].classList.remove('is-danger')
-//     $(el).parent().parent().find('button')[0].classList.add('is-link')
-//   }
-// }
 
 function hideAlert(el) {
   $(el).parent().parent()[0].outerHTML = ''
 }
-
-// function expand(el) {
-
-//   if ($(el).children().find('i')[0].innerHTML == 'keyboard_arrow_up') {
-//     $(el).children()[0].innerHTML = 'expandera'
-
-//     $(el).children().find('i')[0].innerHTML = 'keyboard_arrow_down'
-//   } else {
-//     $(el).children()[0].innerHTML = 'minimera'
-//     $(el).children().find('i')[0].innerHTML = 'keyboard_arrow_up'
-
-//   }
-//   if ($(el).parent().parent().parent().children()[0].style.maxHeight == $(el).parent().parent().parent().children()[0].scrollHeight + "px") {
-//     $(el).parent().parent().parent().children()[0].style.maxHeight = "50vh"
-//   } else {
-//     $(el).parent().parent().parent().children()[0].style.maxHeight = $(el).parent().parent().parent().children()[0].scrollHeight + "px"
-//   }
-// }

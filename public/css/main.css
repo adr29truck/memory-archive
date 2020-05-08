@@ -160,7 +160,9 @@ div#columns:hover figure:not(:hover) {
 
 
 
-
+.scroller-status p {
+  text-align: center;
+}
 
 
 
