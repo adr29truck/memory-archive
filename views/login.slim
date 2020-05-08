@@ -1,18 +1,20 @@
-form action="login" method="post"
-  .field
-    label.label Email
-    .control.has-icons-left.has-icons-right
-      input.input.is-success name="email" placeholder="Email" type="email" required="true"
-        span.icon.is-small.is-left
-          i.material-icons alternative_email
-  .field
-    label.label Password
-    .control.has-icons-left
-      input.input type="password" name="password" placeholder="Password" required="true"
-        span.icon.is-small.is-left
-          i.material-icons lock
-    p.help 
-      | Forgotten the password?
-      a href="/reset_password"   Reset Password
-  .field.is-grouped.is-grouped-right
-    button.button.is-link type="submit" Sign in
+.login-body
+  .login-form
+    form action="login" method="post"
+      .field
+        label.label Email
+        .input-field
+          i.material-icons.prefix email
+          input.input.is-success name="email" placeholder="Email" type="email" required="true"
+
+      .field
+        label.label Password
+        .input-field
+          i.material-icons.prefix lock
+          input.input type="password" name="password" placeholder="Password" required="true"
+            
+        p.help 
+          | Forgotten the password?
+          a href="/reset_password"   Reset Password
+      .field.is-grouped.is-grouped-middle
+        button.button.is-link type="submit" Sign in
