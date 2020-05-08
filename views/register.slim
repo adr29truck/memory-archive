@@ -1,0 +1,30 @@
+form action="register" method="post"
+  .field
+    label.label Name
+    .control
+      input.input placeholder="Name" type="text" name="name" required="true"
+  .field
+    label.label Email Adress
+    .control.has-icons-left
+      input.input placeholder="Email" type="email" required="true" name="email"
+      span.icon.is-small.is-left
+        i.material-icons alternative_email
+    p.help.is-success 
+  .field
+    label.label Password
+    .control.has-icons-left
+      input.input placeholder="Password" type="password" value="" required="true" name="password"
+      span.icon.is-small.is-left
+        i.material-icons lock
+  .field
+    .control
+      label.checkbox
+        input type="checkbox" required="true" name="terms"/
+        |  I agree to the
+        a href="/terms_of_service"  terms of service
+
+  .field.is-grouped
+    .control
+      button.button.is-link type="submit" Submit
+    .control
+      button.button.is-link.is-light type="reset" Cancel

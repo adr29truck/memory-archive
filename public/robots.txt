@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Allow: /*.css$
+Allow: /*.js$
+Disallow: /admin
+Disallow: /admin/*
+Crawl-delay: 10

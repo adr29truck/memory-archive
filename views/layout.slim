@@ -1,0 +1,103 @@
+
+doctype html
+html lang="en"
+  head
+    meta charset="UTF-8" /
+    meta content="width=device-width, initial-scale=1.0" name="viewport" /
+    title Memory Archive
+  body.has-navbar-fixed-top
+    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /
+    link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" /
+    link href="/css/main.css" rel="stylesheet" /
+    link href="/css/bulma.css" rel="stylesheet" /
+    script src="/js/jquery-3.5.5.min.js"
+    script src="/js/main.js"
+    script src="/js/infinite-scroll.pkgd.min.js"
+
+  .wrapper
+    nav.navbar.is-fixed-top aria-label=("main navigation") role="navigation" 
+      .navbar-brand
+        a.navbar-item href="/" 
+          img height="28" src="https://bulma.io/images/bulma-logo.png" width="112" /
+        a.navbar-burger.burger aria-expanded="false" aria-label="menu" data-target="navbarBasicExample" role="button" 
+          span aria-hidden="true" 
+          span aria-hidden="true" 
+          span aria-hidden="true" 
+      #navbarBasicExample.navbar-menu
+        .navbar-start
+          a.navbar-item href="/"
+            | Home
+          a.navbar-item href="/faq"
+            | FAQ
+          - if @logged_in != nil && @groups != nil
+            .navbar-item.has-dropdown.is-hoverable
+              a.navbar-link onclick="expandNav(this)"
+                | Change Group
+              .navbar-dropdown
+                - @groups.each do |group|
+                  a.navbar-item href="/?group_id=#{group.id}"
+                    | #{group.name}
+          - if @admin
+            .navbar-item.has-dropdown.is-hoverable
+              a.navbar-link onclick="expandNav(this)"
+                | More
+              .navbar-dropdown
+                a.navbar-item href="/post/create"
+                  | Add memmory
+                - if @admin
+                  a.navbar-item href="/admin/posts"
+                    | Inlägg
+                  a.navbar-item href="/admin/users"
+                    | Medlemmar
+                  a.navbar-item href="/admin/inbox"
+                    | Inbox
+        .navbar-end
+          .navbar-item
+            .buttons
+              - if @logged_in == nil
+                a.button.is-primary href="/register"
+                  strong Register
+                a.button.is-light href="/login"
+                  | Sign in
+              - else
+                a.button.is-light href="/logout"
+                  | Sign out
+    p = @posts.inspect
+
+    / - if !@cookies_allowed
+      .cookies
+        iframe#dummyframe name="dummyframe" style=("display: none;") 
+        .modal#cookie
+          .modal-background
+          .modal-card
+            header.modal-card-head
+              p.modal-card-title Kakor
+            section.modal-card-body
+              | Denna sidan kräver användning av kakor för att fungera som tänkt. 
+              br 
+              | Genom att klicka på Godkänn går du med på att kakor placeras på din enhet i syftet att webbplatsen ska fungera som tänkt. 
+              br
+              br
+              | Kakorna används för att visa dynamisk information och visa meddelanden som berör dig som användare. Kakorn används även för att identifera din användare under tiden du är inloggad. 
+              br
+              br
+              b Vad för typer av kakor använder vi oss av?
+              br
+              | Våra egna kakor. Dessa är kakor som skickas till din terminal från en dator eller domän som hanteras av oss (och från vilken den service du begär tillhandahålls). Vi har till exempel definierat och äger vissa kakor som används för att köra vissa funktioner i våra produkter och tjänster eller användartestexperiment, samt att spåra besökarinformation.
+              br
+              br
+              | Kakan: rack.session  Används för att identifiera den nuvarande sessionen, och är nödvändig för att webbplatsen ska kunna visas.
+              br
+              br
+              b Neka användningen av kakor
+              br
+              | För att neka ytterligare kakor kan du klicka på neka. För att helt och hållet undvika kakor kan du använda dig av din webbläsares inställningar för att neka användningen av kakor. 
+              b NOTERA
+              |  att webbplatsen kanske inte fungerar som tänkt.
+            footer.modal-card-foot
+              form action="/cookie_allow" method="post"
+                button.button.is-success type="submit" Godkänn
+              form action="/cookie_deny" method="post" target="dummyframe"
+                button.button type="reset" onclick="hideModal()" Neka 
+
+    ==yield

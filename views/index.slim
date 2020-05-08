@@ -1,0 +1,62 @@
+section.hero.is-info.is-large
+  .hero-body
+    .container
+      h1.title Memmory
+      h2.subtitle Archive
+
+
+section
+  #columns.article-feed
+    - if !@posts.nil?
+      - video = ['mp4']
+      - @posts.each do |post|
+        figure
+          .modal
+            .modal-background
+            .modal-content
+              p.image
+              - if video.include?(post.img_path.split('.').last)
+                video controls="true" width="320" height="240"
+                  source src="/files/#{post.img_path}" type="video/mp4"
+              - else
+                img alt="" src="/files/#{post.img_path}" /
+            button.modal-close.is-large aria-label="close" onclick="modalHide(this)" 
+
+          - if video.include?(post.img_path.split('.').last)
+            video controls="true" width="320" height="240"
+              source src="/files/#{post.img_path}" type="video/mp4"
+          - else
+            img alt="" src="/files/#{post.img_path}" onclick="modalShow(this)"/
+          .media-content
+            p.subtitle.is-6 Uploaded by @#{post.author_id}
+          .content
+            | #{post.message}
+            br/
+            time datetime="2016-1-1"  11:09 PM - 1 Jan 2016
+            - if @logged_in == post.author_id
+              a href="/post/#{post.id}/delete"
+                span.tag.is-light Delete
+        /! status elements
+      .scroller-status
+        .infinite-scroll-request.loader-ellips
+          | \...
+        p.infinite-scroll-last End of content
+        p.infinite-scroll-error No more pages to load
+      /! pagination has path
+      p.pagination
+        a.pagination__next href="/?page=#{@page+1}"  Next page
+
+
+    
+/ - if @alert
+/   .alerts
+/     == slim :'partials/alert'
+
+
+/ container
+/   h1.title Nyheter
+/   - @posts.each do |post|
+/     == slim :'partials/news', locals: {post: post, collapse: true}
+/   .box
+/     a href="/news"
+/       h3.subtitle Se alla nyheter

@@ -1,0 +1,204 @@
+@font-face {
+  font-family: Aileron;
+  src: url(../fonts/Aileron-Bold.otf);
+}
+
+:root {
+  --main-background-color: #ffffff;
+  --secondary-background-color: #cccccc;
+  --alternative-color: #FFDC00;
+  --main-text-color: black;
+  --secondary-text-color: rgba(255, 255, 255, 0.5);
+  --alternative-text-color: #ffffff;
+  --error-color: #FF4136;
+  --orange-color: #FF851B;
+  ;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  color: var(--main-text-color);
+}
+
+.cookies .modal{
+  display: block;
+}
+
+.modal-card {
+  width: initial !important;
+}
+
+.slow-transition{
+  transition: all 0.3s ease;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.collapsed{
+  max-height: 50vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.navbar-dropdown {
+  max-height: 0;
+  transition: all 3s ease;
+  overflow: hidden;
+}
+
+@media only screen  and (min-width : 1024px) {
+  .navbar-dropdown {
+    max-height: initial;
+    transition: all 3s ease;
+    /* overflow: hidden; */
+  }
+}
+
+.message-header {
+  border-radius: 0 !important;
+}
+
+.hero-body {
+  background-image: url('https://i.picsum.photos/id/911/1920/1080.jpg?grayscale');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.expanded {
+  max-height: initial;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+body {
+	background: url(//subtlepatterns.com/patterns/scribble_light.png);
+  font-family: Calluna, Arial, sans-serif;
+  min-height: 1000px;
+}
+#columns {
+	column-width: 320px;
+	column-gap: 15px;
+  width: 90%;
+	max-width: 1100px;
+	margin: 50px auto;
+}
+
+div#columns figure {
+	background: #fefefe;
+	border: 2px solid #fcfcfc;
+	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+	margin: 0 2px 15px;
+	padding: 15px;
+	padding-bottom: 10px;
+	transition: opacity .4s ease-in-out;
+  /* display: inline-block; */
+  -webkit-column-break-inside: avoid;
+  column-break-inside: avoid;
+}
+
+div#columns figure img {
+	width: 100%; height: auto;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 15px;
+	margin-bottom: 5px;
+}
+
+div#columns figure p, div#columns figure .content {
+  font-size: .85rem;
+	color: #444;
+  line-height: 1.5;
+}
+
+div#columns figure .content {
+  font-size: 0.95rem;
+}
+
+div#columns small { 
+  font-size: 1rem;
+  float: right; 
+  text-transform: uppercase;
+  color: #aaa;
+} 
+
+div#columns small a { 
+  color: #666; 
+  text-decoration: none; 
+  transition: .4s color;
+}
+
+div#columns:hover figure:not(:hover) {
+	opacity: 0.4;
+}
+
+@media screen and (max-width: 750px) { 
+  #columns { column-gap: 0px; }
+  #columns figure { width: 100%; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Error screens */
+
+.hold {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.hold i {
+  transform: scale(1.5);
+  margin-right: 20px;
+}
+
+.hold h1 {
+  text-align: center;
+}
+
+.error {
+  padding: 10em 1em 0 1em;
+  display: grid;
+  grid-template-rows: auto auto;
+  background: var(--main-background-color);
+  color: var(--main-text-color);
+}
+
+.error a {
+  display: inline-block;
+  color: inherit;
+}
+
+/* TODO: Add to sinatra_template that this file has to go under the css folder */
+/* FIXME: Remove min-height on error in sinatra_template */
