@@ -127,6 +127,23 @@ class Server < Sinatra::Base
     end
   end
 
+  get '/group/create' do
+    slim :create_group
+  end
+
+  post '/group/create' do
+    params[:identifier] = SecureRandom.uuid
+    x = Classes.new(params)
+    x.save
+
+    z = UserClass.new(user_id: @logged_in, class_id: x.id, admin: 1)
+    z.save
+
+    session[:class_id] = x.id
+    redirect "/group/users?=#{x.id}"
+  end
+
+
   post '/cookie_deny' do
     session[:cookies] = false
     redirect back
