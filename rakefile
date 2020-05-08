@@ -3,10 +3,10 @@ task :seed do
 end
 
 task :run do
-    sh 'bundle exec rerun --ignore "*.{slim,js,css}" "rackup --host 0.0.0.0"'
+    sh 'bundle exec rerun --ignore "*.{slim,js,css,scss,db}" "rackup --host 0.0.0.0"'
 end
 
 task :reboot do
     ruby 'db/seeder.rb'
-    sh 'bundle exec rerun --ignore "*.{slim,js,css}" "rackup --host 0.0.0.0"'
+    sh 'bundle exec rerun --ignore "*.{slim,js,css,scss,db}" "rackup --host 0.0.0.0"'
 end
