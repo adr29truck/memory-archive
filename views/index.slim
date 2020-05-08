@@ -35,22 +35,12 @@ section
       - video = ['mp4']
       - @posts.each do |post|
         figure
-          .modal
-            .modal-background
-            .modal-content
-              p.image
-              - if video.include?(post.img_path.split('.').last)
-                video controls="true" width="320" height="240"
-                  source src="/files/#{post.img_path}" type="video/mp4"
-              - else
-                img alt="" src="/files/#{post.img_path}" /
-            button.modal-close.is-large aria-label="close" onclick="modalHide(this)" 
-
           - if video.include?(post.img_path.split('.').last)
             video controls="true" width="320" height="240"
               source src="/files/#{post.img_path}" type="video/mp4"
           - else
-            img alt="" src="/files/#{post.img_path}" onclick="modalShow(this)"/
+            img.materialboxed alt="" src="/files/#{post.img_path}" 
+            
           .media-content
             p.subtitle.is-6 Uploaded by @#{post.author_id}
           .content
@@ -65,9 +55,17 @@ section
           a.pagination__next href="/?page=#{@page+1}"  Next page
   - if !@posts.nil?
     .scroller-status
-      p.infinite-scroll-request.container.is-widescreen Loading...
-      p.infinite-scroll-last.container.is-widescreen End of content
-      p.infinite-scroll-error.container.is-widescreen No more pages to load
+      / Loading...
+      .infinite-scroll-request.container.is-widescreen
+        .spinner-layer.spinner-yellow
+          .circle-clipper.left
+            .circle
+          .gap-patch
+            .circle
+          .circle-clipper.right
+            .circle
+
+      p.infinite-scroll-last.container.is-widescreen No more content
 
 
     
