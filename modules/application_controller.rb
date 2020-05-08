@@ -106,10 +106,12 @@ class ApplicationController
     hash = {}
     instance_variables.map { |q| hash[q.to_s.gsub('@', '')] = instance_variable_get(q) }
 
-    dataset = if table.nil?
-                DB[:"#{self.class.to_s.downcase}"]
-              else
+    dataset = if !table.nil?
                 DB[:"#{table}"]
+              elsif !self.class.table.nil?
+                DB[:"#{self.class.table}"]
+              else
+                DB[:"#{self.to_s.downcase}"]
               end
 
     if self.instance_variables.include?(:@id) && id.is_a?(Integer)
