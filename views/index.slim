@@ -4,7 +4,6 @@ section.hero.is-info.is-large
       h1.title Memmory
       h2.subtitle Archive
 
-
 section
   #columns.article-feed
     - if !@posts.nil?
@@ -36,15 +35,14 @@ section
             - if @logged_in == post.author_id
               a href="/post/#{post.id}/delete"
                 span.tag.is-light Delete
-        /! status elements
-      .scroller-status
-        .infinite-scroll-request.loader-ellips
-          | \...
-        p.infinite-scroll-last End of content
-        p.infinite-scroll-error No more pages to load
-      /! pagination has path
-      p.pagination
-        a.pagination__next href="/?page=#{@page+1}"  Next page
+      - if @more_content == true
+        p.pagination
+          a.pagination__next href="/?page=#{@page+1}"  Next page
+  - if !@posts.nil?
+    .scroller-status
+      p.infinite-scroll-request.container.is-widescreen Loading...
+      p.infinite-scroll-last.container.is-widescreen End of content
+      p.infinite-scroll-error.container.is-widescreen No more pages to load
 
 
     

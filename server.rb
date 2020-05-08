@@ -27,16 +27,24 @@ class Server < Sinatra::Base
       session[:class_id] = @class_id
     end
 
-
     if @logged_in != nil && @class_id != nil
       if params['page'] == nil || params['page'] == '1'
         @posts = Post.where(class_id: @class_id).order(:time_stamp).reverse.limit(10).all.objectify('Post')
-        @page = params['page'].to_i
-      else
         @page = 1
-        count = params['page'].to_i * 10
+      else
+        @page = params['page'].to_i
+        count = ((params['page'].to_i) -1) * 10
         @posts = Post.where(class_id: @class_id).order(:time_stamp).reverse.limit(count...count+10).all.objectify('Post')
       end
+      showing_after_this_page = @page * 10
+      target = Post.where(class_id: @class_id).count(:id)
+
+      if showing_after_this_page.to_i >= target.to_i
+        @more_content = false
+      else
+        @more_content = true
+      end
+                        
     end
     slim :index
   end
@@ -78,7 +86,11 @@ class Server < Sinatra::Base
     if x == user
       session[:user_id] = x.id
       session[:admin] = x.admin == 1
-      session[:class_id] = UserClass.fetch.where(user_id: x.id).all.objectify('UserClass').first.class_id
+      begin
+        session[:class_id] = UserClass.fetch.where(user_id: x.id).all.objectify('UserClass').first.class_id
+      rescue
+        session[:error_message] = 'No groups.'
+      end
     else
       session[:error_message] = 'Fel epostadress eller lösendord.'
       redirect '/login'
