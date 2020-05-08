@@ -1,7 +1,7 @@
 .register-body 
   .register-form
     h1.title.is-5 Create a new group
-    form action="/group/create" method="post"
+    form action="/group/create" method="post" enctype="multipart/form-data"
       .field
         label.label Group name
         .input-field
@@ -11,10 +11,18 @@
         label.label Group Description
         .input-field
           i.material-icons.prefix description
-          input placeholder="Short description" type="text" value="" name="description"
+          input placeholder="Short description" type="text" value="" name="description" maxlength="40"
           / span.icon.is-small.is-left
-        p.help.is-success
-      
+        p.help Max 40 characters
+      .file.has-name-is-right
+        label.file-label
+          input.file-input name="file" type="file" onchange="getFileData(this);" accept=".jpg,.jpeg,.png,.raw,.gif,.bmp"
+          span.file-cta
+            span.file-icon
+              i.material-icons cloud_upload
+            span.file-label
+            | Chose File
+
       .field.is-grouped
         .control
           button.button.is-link type="submit" Create

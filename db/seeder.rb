@@ -31,9 +31,10 @@ def reset_database!
 
   DB.create_table! :classes do
     Integer :id, primary_key: true, unique: true, auto_increment: true 
-    String :name, null: true
+    String :name, null: false
     String :description
-    String :identifier, null: true
+    String :identifier, null: false
+    String :img_path, null: true
   end
 
   DB.create_table! :alert do

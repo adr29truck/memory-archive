@@ -1,8 +1,33 @@
-section.hero.is-info.is-large
-  .hero-body
-    .container
-      h1.title Memmory
-      h2.subtitle Archive
+section.hero.is-info.is-large.no-gap
+  - if @logged_in == nil
+    .slider
+      ul.slides
+        li
+          img src="https://ununsplash.imgix.net/photo-1414849424631-8b18529a81ca?q=75&fm=jpg&s=0e993004a2f3704e8f2ad5469315ccb7" /
+          .caption.center-align
+            h3.title.is-2 Memmory Archive
+            h3.subtitle.light.grey-text.text-lighten-3 Saving the valuable moments in life
+        li
+          img src="https://ununsplash.imgix.net/photo-1414849424631-8b18529a81ca?q=75&fm=jpg&s=0e993004a2f3704e8f2ad5469315ccb7" /
+          .caption.left-align
+            h3.title Image and Video
+            h5.subtitle.light.grey-text.text-lighten-3 We got you covered
+  - elsif @groups != nil && @groups != []
+    - if @groups.select{ |e| e.id.to_i == @class_id.to_i}.first.img_path != nil
+      .hero-body style='background-image: url("/files/#{@groups.select{ |e| e.id.to_i == @class_id.to_i}.first.img_path}"); background-size: cover;'
+        .container
+          h1.title #{@groups.select{ |e| e.id.to_i == @class_id.to_i}.first.name}
+          h2.subtitle #{@groups.select{ |e| e.id.to_i == @class_id.to_i}.first.description}
+    - else
+      .hero-body
+        .container
+          h1.title #{@groups.select{ |e| e.id.to_i == @class_id.to_i}.first.name}
+          h2.subtitle #{@groups.select{ |e| e.id.to_i == @class_id.to_i}.first.description}
+  - else
+    .hero-body
+      .container
+        h1.title Time to archive your memmories
+        h2.subtitle Join or create a group by using the menu above
 
 section
   #columns.article-feed

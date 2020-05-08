@@ -30,6 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
     hideNav: '.pagination',
     prefill: true,
   });
+
+  // init Materialize
+  $('.materialboxed').materialbox();
+  var elems = $('.slider');
+  var options = {'duration': 500, 'height': 400}
+  var instances = M.Slider.init(elems, options);
+
 });
 
 

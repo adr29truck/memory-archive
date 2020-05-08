@@ -77,21 +77,18 @@ body {
   max-height: initial;
 }
 
-
-
-
-
-
-
-
-
-
+.no-gap {
+  position: relative;
+  top: -30px;
+}
 
 body {
 	background: url(//subtlepatterns.com/patterns/scribble_light.png);
   font-family: Calluna, Arial, sans-serif;
   min-height: 1000px;
+  padding-bottom: 2em;
 }
+
 #columns {
 	column-width: 320px;
 	column-gap: 15px;
@@ -152,7 +149,9 @@ div#columns:hover figure:not(:hover) {
   #columns figure { width: 100%; }
 }
 
+.indicators{display: none;}
 
+.slider{height: 400px !important;}
 
 
 

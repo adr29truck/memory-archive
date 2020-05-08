@@ -132,6 +132,22 @@ class Server < Sinatra::Base
   end
 
   post '/group/create' do
+    begin
+      file = params['file']
+      tempfile = file[:tempfile]
+      filename = file[:filename]
+
+      path = "#{SecureRandom.uuid + "." +filename.split('.').last}"
+      File.open("./public/files/" + path, 'wb') do |f|
+        f.write(tempfile.read)
+      end
+      params.delete :file
+
+      params[:img_path] = path
+    rescue
+      params[:img_path] = 'default_img.png'
+    end
+
     params[:identifier] = SecureRandom.uuid
     x = Classes.new(params)
     x.save
