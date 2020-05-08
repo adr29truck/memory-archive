@@ -41,21 +41,21 @@ html lang="en"
                     | #{group.name}
               a.navbar-item href="/post/create"
                 | Add memmory
-            .navbar-item.has-dropdown.is-hoverable
-              a.navbar-link onclick="expandNav(this)"
-                | More
-              .navbar-dropdown
+          .navbar-item.has-dropdown.is-hoverable
+            a.navbar-link onclick="expandNav(this)"
+              | More
+            .navbar-dropdown
               a.navbar-item href="/group/join"
                 | Join Group
               a.navbar-item href="/group/create"
                 | Create Group
-                - if @admin
-                  a.navbar-item href="/admin/posts"
-                    | Inlägg
-                  a.navbar-item href="/admin/users"
-                    | Medlemmar
-                  a.navbar-item href="/admin/inbox"
-                    | Inbox
+              - if @admin
+                a.navbar-item href="/admin/posts"
+                  | Inlägg
+                a.navbar-item href="/admin/users"
+                  | Medlemmar
+                a.navbar-item href="/admin/inbox"
+                  | Inbox
         .navbar-end
           .navbar-item
             .buttons
