@@ -1,5 +1,8 @@
 $(window).bind("load", function() {
-    $('.loader-page')[0].outerHTML = ''
+    $('.loader-page')[0].style = 'width: 0;'
+    setTimeout(function() {
+      $('.loader-page')[0].outerHTML = ''
+    }, 205)
 });
 
 document.addEventListener('DOMContentLoaded', () => {
