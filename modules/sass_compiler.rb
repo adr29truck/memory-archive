@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sassc'
 
 # Private: Writes Sass (Scss) to css

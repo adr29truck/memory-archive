@@ -6,7 +6,6 @@ require 'sequel'
 DB = Sequel.sqlite('./db/data.db')
 
 def reset_database!
-
   DB.drop_table? :user
   DB.drop_table? :user_classes
   DB.drop_table? :alert
@@ -30,7 +29,7 @@ def reset_database!
   end
 
   DB.create_table! :classes do
-    Integer :id, primary_key: true, unique: true, auto_increment: true 
+    Integer :id, primary_key: true, unique: true, auto_increment: true
     String :name, null: false
     String :description
     String :identifier, null: false
@@ -38,7 +37,7 @@ def reset_database!
   end
 
   DB.create_table! :alert do
-    Integer :id, primary_key: true, unique: true, auto_increment: true 
+    Integer :id, primary_key: true, unique: true, auto_increment: true
     Integer :valid_until, null: true
     Integer :valid, null: true
     String :level, null: true
@@ -48,7 +47,7 @@ def reset_database!
   end
 
   DB.create_table! :post do
-    Integer :id, primary_key: true, unique: true, auto_increment: true 
+    Integer :id, primary_key: true, unique: true, auto_increment: true
     String :message, null: true
     Integer :author_id, null: false
     Integer :time_stamp, null: false

@@ -19,7 +19,6 @@ class ApplicationController
 
     puts params
     params.each do |key, value|
-
       instance_variable_set("@#{key}", value)
       singleton_class.send(:attr_accessor, key.to_s)
     end
