@@ -1,3 +1,7 @@
+$(window).bind("load", function() {
+    $('.loader-page')[0].outerHTML = ''
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // Get all "navbar-burger" elements
@@ -37,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
   var options = {'duration': 500, 'height': 400}
   var instances = M.Slider.init(elems, options);
 
+  // $('.loader-page')[0].outerHTML = ''
 });
-
 
 function modalShow(el) {
   $(el).parent().find('.modal')[0].style.display = 'block';
