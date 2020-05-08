@@ -5,16 +5,18 @@ html lang="en"
     meta charset="UTF-8" /
     meta content="width=device-width, initial-scale=1.0" name="viewport" /
     title Memory Archive
-  body.has-navbar-fixed-top
     link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /
     link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" /
-    link href="/css/main.css" rel="stylesheet" /
+    link href="/css/materialize.min.css" rel="stylesheet" /
     link href="/css/bulma.css" rel="stylesheet" /
+    link href="/css/main.css" rel="stylesheet" /
+    link href="/css/alternate.css" rel="stylesheet" /
     script src="/js/jquery-3.5.5.min.js"
     script src="/js/main.js"
     script src="/js/infinite-scroll.pkgd.min.js"
+    script src="/js/materialize.min.js"
+  body.has-navbar-fixed-top
 
-  .wrapper
     nav.navbar.is-fixed-top aria-label=("main navigation") role="navigation" 
       .navbar-brand
         a.navbar-item href="/" 
@@ -98,5 +100,5 @@ html lang="en"
                 button.button.is-success type="submit" Godkänn
               form action="/cookie_deny" method="post" target="dummyframe"
                 button.button type="reset" onclick="hideModal()" Neka 
-
-    ==yield
+    .wrapper
+      ==yield
