@@ -54,7 +54,7 @@ class Server < Sinatra::Base
   end
 
 
-  get '/post/create' do
+  get '/post/create/?' do
     slim :create_post
   end
 
@@ -127,7 +127,7 @@ class Server < Sinatra::Base
     end
   end
 
-  get '/group/create' do
+  get '/group/create/?' do
     slim :create_group
   end
 
