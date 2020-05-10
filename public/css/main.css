@@ -67,7 +67,7 @@ body {
 }
 
 .hero-body {
-  background-image: url('https://i.picsum.photos/id/911/1920/1080.jpg?grayscale');
+  background-image: url('../img/hero_default.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -153,14 +153,13 @@ div#columns:hover figure:not(:hover) {
 
 .slider{height: 400px !important;}
 
-
-
-
-
 .scroller-status p {
   text-align: center;
 }
 
+.hero h3 {
+  font-family: 'Aileron';
+}
 
 
 
