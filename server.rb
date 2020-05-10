@@ -14,7 +14,7 @@ class Server < Sinatra::Base
     @cookies_allowed = session[:cookies]
     @class_id = session[:class_id]
 
-    if @logged_in != nil
+    unless @logged_in.nil?
       @groups = UserClass.where(user_id: @logged_in).join(:classes, id: :class_id).all.objectify('Classes')
     end
 
@@ -22,29 +22,25 @@ class Server < Sinatra::Base
   end
 
   get '/' do
-    if params[:group_id] != nil && UserClass.where(user_id: @logged_in, class_id: params[:group_id]).all.length == 1
+    if !params[:group_id].nil? && UserClass.where(user_id: @logged_in, class_id: params[:group_id]).all.length == 1
       @class_id = params[:group_id]
       session[:class_id] = @class_id
     end
 
-    if @logged_in != nil && @class_id != nil
-      if params['page'] == nil || params['page'] == '1'
+    if !@logged_in.nil? && !@class_id.nil?
+      if params['page'].nil? || params['page'] == '1'
         @posts = Post.where(class_id: @class_id).order(:time_stamp).reverse.limit(10).all.objectify('Post')
         @page = 1
       else
         @page = params['page'].to_i
-        count = ((params['page'].to_i) -1) * 10
-        @posts = Post.where(class_id: @class_id).order(:time_stamp).reverse.limit(count...count+10).all.objectify('Post')
+        count = (params['page'].to_i - 1) * 10
+        @posts = Post.where(class_id: @class_id).order(:time_stamp).reverse.limit(count...count + 10).all.objectify('Post')
       end
       showing_after_this_page = @page * 10
       target = Post.where(class_id: @class_id).count(:id)
 
-      if showing_after_this_page.to_i >= target.to_i
-        @more_content = false
-      else
-        @more_content = true
-      end
-                        
+      @more_content = showing_after_this_page.to_i < target.to_i
+
     end
     slim :index
   end
@@ -53,23 +49,21 @@ class Server < Sinatra::Base
     slim :login
   end
 
-
   get '/post/create' do
     slim :create_post
   end
 
   post '/post/create' do
-
     file = params['file']
     tempfile = file[:tempfile]
     filename = file[:filename]
 
-    path = "#{SecureRandom.uuid + "." +filename.split('.').last}"
-    File.open("./public/files/" + path, 'wb') do |f|
+    path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
+    File.open('./public/files/' + path, 'wb') do |f|
       f.write(tempfile.read)
     end
 
-    x = Post.new({message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id})
+    x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
     x.save
 
     redirect "/post/#{x.id}"
@@ -88,7 +82,7 @@ class Server < Sinatra::Base
       session[:admin] = x.admin == 1
       begin
         session[:class_id] = UserClass.fetch.where(user_id: x.id).all.objectify('UserClass').first.class_id
-      rescue
+      rescue StandardError
         session[:error_message] = 'No groups.'
       end
     else
@@ -137,14 +131,14 @@ class Server < Sinatra::Base
       tempfile = file[:tempfile]
       filename = file[:filename]
 
-      path = "#{SecureRandom.uuid + "." +filename.split('.').last}"
-      File.open("./public/files/" + path, 'wb') do |f|
+      path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
+      File.open('./public/files/' + path, 'wb') do |f|
         f.write(tempfile.read)
       end
       params.delete :file
 
       params[:img_path] = path
-    rescue
+    rescue StandardError
       params[:img_path] = 'default_img.png'
     end
 
