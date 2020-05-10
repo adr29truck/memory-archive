@@ -159,6 +159,104 @@ class Server < Sinatra::Base
     redirect "/group/users?=#{x.id}"
   end
 
+  get '/new_password' do
+    @identifier = params['identifier']
+    slim :password_new
+  end
+
+  post '/password_new' do
+    begin
+      user = User.fetch.where(identifier: params['identifier']).join(:reset_password, user_id: :id).first.objectify('User')
+      user.remove_instance_variable(:@user_id)
+      user.remove_instance_variable(:@identifier)
+    rescue
+      session[:error_message] = 'The session has expired'
+      redirect '/login'
+    end
+    if user.nil?
+      session[:error_message] = 'The session has expired'
+    else
+      user.new_password params['password']
+      user.save
+      ResetPassword.fetch.where(identifier: params['identifier']).delete
+
+      session[:error_message] = 'Password updated'
+    end
+    redirect '/login'
+  end
+
+  get '/reset_password' do
+    slim :password_reset
+  end
+
+  post '/reset_password' do
+    user = User.fetch.where(email: params['email']).all.objectify('User')
+    p user
+    if user.nil? || user == []
+      redirect 'back'
+    else
+      identifier = user.first.reset_password
+      p identifier
+      # <header style='width: 100%; height: 10vh; max-height: 100px; background: url('#{ENV['URL']}/img/hero_default.png')'> </header>
+      body = "
+        <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+        <html xmlns='http://www.w3.org/1999/xhtml'>
+        <head>
+          <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+          <title>Memmory Archive</title>
+          <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+        </head>
+        <body syle='width: 100%; min-height: 100vh;'>
+        <div>
+          <header style='width: 100%; height: 10vh; max-height: 100px; background: url('http://localhost:9292/img/hero_default.png')'> </header>
+          <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
+            <h1 style='text-align: center; width: 100%;'>Memmory Archive </h1>
+            <div style='height: 30px;'></div>
+            <h2 style='text-align: center; width: 100%;'>Password Reset </h2>
+            <p>Someone requested that the password for an account associated with your emailadress should be changed.<p>
+            <p>Reset your password by pressing <a href='#{ENV['URL']}/new_password?identifier=#{identifier}' style='font-weight: bold;'>here</a></p>
+        </div>
+        <footer style='width: 100%; padding: 0.5em;'>
+            <p style='width: 100%; text-align: center;'>If you did not request a password reset you do not have to take any further action.</p>
+        </footer>
+        </div>
+        </body>
+        </html>"
+      non_html = "Memmory Archive\nReset your password by visiting  #{ENV['URL']}/new_password?identifier=#{identifier} \nIf you did not request a password reset you do not have to take any further action."
+
+      # image = File.open('./public/img/hero_default.jpg')
+
+      begin
+
+        Pony.mail(
+          to: params['email'],
+          subject: 'Password reset',
+          html_body: body,
+          body: non_html,
+          # attachments: {image: image},
+          via: :smtp,
+          via_options: {
+            address: 'smtp.gmail.com',
+            port: '587',
+            enable_starttls_auto: true,
+            user_name: 'bobbisbyggaren@gmail.com',
+            password: ENV['SMTP_PASSWORD'],
+            authentication: :plain, # :plain, :login, :cram_md5, no auth by default
+            domain: 'localhost.localdomain'
+            # The HELO domain provided by the client to the server
+          }
+        )
+        session[:error] = 'Message sent successfully'
+        session[:error_type] = 200
+      rescue StandardError
+        session[:error] = 'Something went wrong. Try again'
+        session[:error_type] = 500
+      ensure
+        redirect back
+      end
+    end
+  end
+
 
   post '/cookie_deny' do
     session[:cookies] = false
