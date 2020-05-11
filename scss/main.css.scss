@@ -42,6 +42,39 @@ figure {
     }
 }
 
+.alerts {
+  position: fixed;
+  top: 10vh;
+  right: 20px;
+  z-index: 999;
+  color: snow;
+}
+
+.alert {
+  position: relative;
+  top: 0;
+  background: #323232;
+  transition: top 1s;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.alert-danger {
+  background: #FF4136;
+}
+
+.alert-warning {
+  background: rgb(244, 246, 86);
+}
+
+.alert-initial {
+  top: 40vh;
+}
+.outside {
+  transition: left 1s ease;
+}
+
+
 
 //  Landing page
 

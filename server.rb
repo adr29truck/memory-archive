@@ -2,6 +2,7 @@
 
 require 'dotenv'
 require 'securerandom'
+require 'sinatra/flash'
 
 Dotenv.load
 
@@ -17,11 +18,20 @@ class Server < Sinatra::Base
     unless @logged_in.nil?
       @groups = UserClass.where(user_id: @logged_in).join(:classes, id: :class_id).all.objectify('Classes')
     end
-
+    
+    @error_severity = session[:error_severity]
+    if @error_severity.nil?
+      @error_severity = 'danger'
+    end
+    @flash = [[session[:error_message], @error_severity]]
+    session[:error_message] = nil
+    session[:error_severity] = nil
     SassCompiler.compile
   end
 
   get '/' do
+    # flash[:notice] = "Hooray, Flash is working!"
+
     if !params[:group_id].nil? && UserClass.where(user_id: @logged_in, class_id: params[:group_id]).all.length == 1
       @class_id = params[:group_id]
       session[:class_id] = @class_id
@@ -83,7 +93,7 @@ class Server < Sinatra::Base
     user = User.new params
     x = User.where(email: params['email'])
     if x.all.empty?
-      session[:error_message] = 'Fel epostadress eller lösendord.'
+      session[:error_message] = 'No user with those details exists.'
       redirect '/login'
     end
     x = x.first.objectify('User')
@@ -96,7 +106,7 @@ class Server < Sinatra::Base
         session[:error_message] = 'No groups.'
       end
     else
-      session[:error_message] = 'Fel epostadress eller lösendord.'
+      session[:error_message] = 'No user with those details exists.'
       redirect '/login'
     end
     redirect '/'
@@ -233,7 +243,7 @@ class Server < Sinatra::Base
     user = User.fetch.where(email: params['email']).all.objectify('User')
     p user
     if user.nil? || user == []
-      redirect 'back'
+      redirect back
     else
       identifier = user.first.reset_password
       p identifier

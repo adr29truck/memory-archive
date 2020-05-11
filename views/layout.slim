@@ -15,9 +15,10 @@ html lang="en"
     link rel="apple-touch-icon" href="/img/memoryarchive_tab_logo-180.png" type="image/png" /
 
     script src="/js/jquery-3.5.5.min.js"
-    script src="/js/main.js"
     script src="/js/infinite-scroll.pkgd.min.js"
     script src="/js/materialize.min.js"
+    script src="/js/zingtouch.min.js"
+    script src="/js/main.js"
   body.has-navbar-fixed-top
     .loader-page
       .body
@@ -123,4 +124,5 @@ html lang="en"
               form action="/cookie_deny" method="post" target="dummyframe"
                 button.button type="reset" onclick="hideModal()" Neka 
     .wrapper
+      ==slim :partial_flash
       ==yield

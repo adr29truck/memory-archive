@@ -22,7 +22,6 @@ body {
 
 .wrapper {
   width: 100%;
-  min-height: 100vh;
   color: var(--main-text-color);
 }
 
@@ -85,7 +84,7 @@ body {
 body {
 	background: url(//subtlepatterns.com/patterns/scribble_light.png);
   font-family: Calluna, Arial, sans-serif;
-  min-height: 1000px;
+  min-height: calc(100vh);
   padding-bottom: 2em;
 }
 
