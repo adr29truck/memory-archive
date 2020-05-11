@@ -132,6 +132,7 @@ class Server < Sinatra::Base
   end
 
   get '/group/join' do
+    @identifier = params['identifier']
     slim :join_group
   end
 

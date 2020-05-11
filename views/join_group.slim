@@ -6,7 +6,10 @@
         label.label Group Code
         .input-field
           i.material-icons.prefix lock
-          input.input placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX" type="text" name="identifier" required="true"
+          - if @identifier.nil?
+            input.input placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX" type="text" name="identifier" required="true"
+          - else
+            input.input placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX" value="#{@identifier}" type="text" name="identifier" required="true"
       .field.is-grouped
         .control
           button.button.is-link type="submit" Join
