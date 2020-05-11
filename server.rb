@@ -105,7 +105,7 @@ class Server < Sinatra::Base
 
   post '/register' do
     if params['terms'] != 'on'
-      session[:error_message] = 'Villkoren upfylldes ej.'
+      session[:error_message] = 'Terms where not fulfilled'
       redirect '/register'
     end
     params.delete :terms
@@ -116,8 +116,43 @@ class Server < Sinatra::Base
       session[:user_id] = user.id
       redirect '/'
     else
-      session[:error_message] = 'Det finns redan ett konto med den epostadressen. Har du glömt ditt lösenord?'
+      session[:error_message] = 'There is already an account with that email adress registered. Have you forgotten your password?'
       redirect '/login'
+    end
+  end
+
+  get '/group/join' do
+    slim :join_group
+  end
+
+  post '/group/join' do
+    if @logged_in.is_a? Integer
+      begin
+        id = Classes.where(identifier: params['identifier']).first.objectify('Classes').id
+      rescue
+        session[:error_message] = 'Invalid group code'
+        redirect back
+      end
+
+      @groups.each do |group|
+        if group.class_id == id
+          session[:error_message] = 'Already in group'
+          redirect "/?group_id=#{id}"
+        end
+      end
+
+      begin
+        z = UserClass.new(user_id: @logged_in, class_id: id, admin: 0)
+        z.save
+        redirect "/?group_id=#{id}"
+      rescue
+        session[:error_message] = 'Invalid group code'
+        redirect back
+      end
+
+    else
+      session[:error_message] = 'Not signed in'
+      redirect '/'
     end
   end
 
@@ -211,7 +246,7 @@ class Server < Sinatra::Base
             <p>Reset your password by pressing <a href='#{ENV['URL']}/new_password?identifier=#{identifier}' style='font-weight: bold;'>here</a></p>
         </div>
         <footer style='width: 100%; padding: 0.5em;'>
-            <p style='width: 100%; text-align: center;'>If you did not request a password reset you do not have to take any further action.</p>
+            <p style='width: 100%; text-align: center;'>If you did not request a password reset you will need to do a password reset the next time you intend to sign in.</p>
         </footer>
         </div>
         </body>

@@ -1,0 +1,12 @@
+.register-body 
+  .register-form
+    h1.title.is-5 Join a group
+    form action="/group/join" method="post"
+      .field
+        label.label Group Code
+        .input-field
+          i.material-icons.prefix lock
+          input.input placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX" type="text" name="identifier" required="true"
+      .field.is-grouped
+        .control
+          button.button.is-link type="submit" Join
