@@ -28,6 +28,7 @@ class Server < Sinatra::Base
     end
 
     if !@logged_in.nil? && !@class_id.nil?
+      @users = User.fetch.all.objectify('User') # TODO: Optimize this one. Get all names of needed ids in SQL and do not filter users out "manually"
       if params['page'].nil? || params['page'] == '1'
         @posts = Post.where(class_id: @class_id).order(:time_stamp).reverse.limit(10).all.objectify('Post')
         @page = 1
@@ -41,7 +42,16 @@ class Server < Sinatra::Base
 
       @more_content = showing_after_this_page.to_i < target.to_i
 
+      # Adds the author name
+      @posts.each do |post|
+        @users.each do |user|
+          if post.author_id.to_i == user.id.to_i
+            post.author user.name
+          end
+        end
+      end
     end
+
     slim :index
   end
 
