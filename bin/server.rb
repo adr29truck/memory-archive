@@ -78,7 +78,7 @@ class Server < Sinatra::Base
     filename = file[:filename]
 
     path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
-    File.open('./public/files/' + path, 'wb') do |f|
+    File.open('./bin/public/files/' + path, 'wb') do |f|
       f.write(tempfile.read)
     end
 
@@ -187,7 +187,7 @@ class Server < Sinatra::Base
       filename = file[:filename]
 
       path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
-      File.open('./public/files/' + path, 'wb') do |f|
+      File.open('./bin/public/files/' + path, 'wb') do |f|
         f.write(tempfile.read)
       end
       params.delete :file

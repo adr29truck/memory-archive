@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Sequel.sqlite('./db/data.db')
+# Sequel.sqlite('./bin/db/data.db')
 
 class ApplicationController
   # FIXME:
@@ -9,7 +9,7 @@ class ApplicationController
   # Sequel::Model --> user
 
   # Configuration
-  DB = Sequel.sqlite('./db/data.db') # TODO: sqlit3, postgresql or other
+  DB = Sequel.sqlite('./bin/db/data.db') # TODO: sqlit3, postgresql or other
 
   # Initializes a new instance of an object and sets provided data
   def initialize(params)

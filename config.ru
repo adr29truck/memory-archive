@@ -4,9 +4,9 @@ require 'bundler'
 
 Bundler.require
 
-require_relative './server'
+require_relative './bin/server'
 
-Dir['modules/**/*.rb'].each do |file|
+Dir['bin/modules/**/*.rb'].each do |file|
   require_relative file
 end
 

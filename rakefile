@@ -1,5 +1,5 @@
 task :seed do
-  ruby 'db/seeder.rb'
+  ruby 'bin/db/seeder.rb'
 end
 
 task :run do
