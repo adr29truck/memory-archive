@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Sequel.sqlite('./db/data.db')
+# Sequel.sqlite('./bin/db/data.db')
 
 class ApplicationController
   # FIXME:
@@ -9,7 +9,7 @@ class ApplicationController
   # Sequel::Model --> user
 
   # Configuration
-  DB = Sequel.sqlite('./db/data.db') # TODO: sqlit3, postgresql or other
+  DB = Sequel.sqlite('./bin/db/data.db') # TODO: sqlit3, postgresql or other
 
   # Initializes a new instance of an object and sets provided data
   def initialize(params)
@@ -69,7 +69,7 @@ class ApplicationController
               elsif !self.table.nil?
                 DB[:"#{self.table}"]
               else
-                DB[:"#{self.to_s.downcase}"]
+                DB[:"#{to_s.downcase}"]
               end
     dataset.where(conditions)
   end
@@ -80,7 +80,7 @@ class ApplicationController
               elsif !self.table.nil?
                 DB[:"#{self.table}"]
               else
-                DB[:"#{self.to_s.downcase}"]
+                DB[:"#{to_s.downcase}"]
               end
   end
 
@@ -90,7 +90,7 @@ class ApplicationController
               elsif !self.table.nil?
                 DB[:"#{self.table}"]
               else
-                DB[:"#{self.to_s.downcase}"]
+                DB[:"#{to_s.downcase}"]
               end
     dataset.all
   end
@@ -113,7 +113,7 @@ class ApplicationController
                 DB[:"#{self.to_s.downcase}"]
               end
 
-    if self.instance_variables.include?(:@id) && id.is_a?(Integer)
+    if instance_variables.include?(:@id) && id.is_a?(Integer)
       # Object has a id and thereby is only updated
       dataset.where(id: id).update(hash)
     else

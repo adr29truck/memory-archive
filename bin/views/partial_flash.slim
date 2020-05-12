@@ -1,0 +1,7 @@
+-if @flash != [[nil, 'danger']]
+  .alerts
+    - @flash.each do |flash|
+      - message = flash.first
+      - status = flash.last
+      div class="alert alert-#{status} alert-initial"
+        p #{message}

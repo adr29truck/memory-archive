@@ -7,6 +7,7 @@ require_relative 'application_controller'
 class User < ApplicationController
   set_columns :id, :name, :email, :encrypted_password, :admin
   set_table :user
+
   # Creates a new user based on provided params
   #
   # params - (Hash - name, password, email, admin)
@@ -26,6 +27,21 @@ class User < ApplicationController
   end
 
   def ==(other)
-    BCrypt::Password.new(encrypted_password) == other.password
+    begin
+      BCrypt::Password.new(encrypted_password) == other.password
+    rescue
+      false
+    end
+  end
+
+  def new_password(new_pass)
+    self.encrypted_password = BCrypt::Password.create(new_pass)
+  end
+
+  def reset_password
+    self.encrypted_password = 'potatis'
+    self.save
+
+    ResetPassword.reset(user_id: self.id)
   end
 end

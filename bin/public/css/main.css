@@ -22,7 +22,6 @@ body {
 
 .wrapper {
   width: 100%;
-  min-height: 100vh;
   color: var(--main-text-color);
 }
 
@@ -67,7 +66,7 @@ body {
 }
 
 .hero-body {
-  background-image: url('https://i.picsum.photos/id/911/1920/1080.jpg?grayscale');
+  background-image: url('../img/hero_default.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -85,7 +84,7 @@ body {
 body {
 	background: url(//subtlepatterns.com/patterns/scribble_light.png);
   font-family: Calluna, Arial, sans-serif;
-  min-height: 1000px;
+  min-height: calc(100vh);
   padding-bottom: 2em;
 }
 
@@ -153,14 +152,13 @@ div#columns:hover figure:not(:hover) {
 
 .slider{height: 400px !important;}
 
-
-
-
-
 .scroller-status p {
   text-align: center;
 }
 
+.hero h3 {
+  font-family: 'Aileron';
+}
 
 
 

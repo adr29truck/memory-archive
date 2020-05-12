@@ -3,7 +3,7 @@
 require 'bcrypt'
 require 'sequel'
 
-DB = Sequel.sqlite('./db/data.db')
+DB = Sequel.sqlite('./bin/db/data.db')
 
 def reset_database!
   DB.drop_table? :user

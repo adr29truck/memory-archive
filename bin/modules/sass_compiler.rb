@@ -6,8 +6,8 @@ require 'sassc'
 class SassCompiler
   # Compiles SASS (SCSS) to css
   def self.compile
-    sass = File.read('./scss/main.css.scss')
-    f = File.new('./public/css/alternate.css', 'w+')
+    sass = File.read('./bin/scss/main.css.scss')
+    f = File.new('./bin/public/css/alternate.css', 'w+')
     f.write(SassC::Engine.new(sass, style: :compressed).render)
     f.close
   end

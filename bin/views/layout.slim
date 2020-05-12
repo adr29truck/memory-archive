@@ -15,9 +15,10 @@ html lang="en"
     link rel="apple-touch-icon" href="/img/memoryarchive_tab_logo-180.png" type="image/png" /
 
     script src="/js/jquery-3.5.5.min.js"
-    script src="/js/main.js"
     script src="/js/infinite-scroll.pkgd.min.js"
     script src="/js/materialize.min.js"
+    script src="/js/zingtouch.min.js"
+    script src="/js/main.js"
   body.has-navbar-fixed-top
     .loader-page
       .body
@@ -59,21 +60,22 @@ html lang="en"
                     | #{group.name}
             a.navbar-item href="/post/create"
               | Add memmory
-          .navbar-item.has-dropdown.is-hoverable
-            a.navbar-link onclick="expandNav(this)"
-              | More
-            .navbar-dropdown
-              a.navbar-item href="/group/join"
-                | Join Group
-              a.navbar-item href="/group/create"
-                | Create Group
-              - if @admin
-                a.navbar-item href="/admin/posts"
-                  | Inlägg
-                a.navbar-item href="/admin/users"
-                  | Medlemmar
-                a.navbar-item href="/admin/inbox"
-                  | Inbox
+          - if @logged_in != nil
+            .navbar-item.has-dropdown.is-hoverable
+              a.navbar-link onclick="expandNav(this)"
+                | More
+              .navbar-dropdown
+                a.navbar-item href="/group/join"
+                  | Join Group
+                a.navbar-item href="/group/create"
+                  | Create Group
+                - if @admin
+                  a.navbar-item href="/admin/posts"
+                    | Inlägg
+                  a.navbar-item href="/admin/users"
+                    | Medlemmar
+                  a.navbar-item href="/admin/inbox"
+                    | Inbox
         .navbar-end
           .navbar-item
             .buttons
@@ -122,4 +124,5 @@ html lang="en"
               form action="/cookie_deny" method="post" target="dummyframe"
                 button.button type="reset" onclick="hideModal()" Neka 
     .wrapper
+      ==slim :partial_flash
       ==yield

@@ -1,8 +1,40 @@
-$(window).bind("load", function() {
-    $('.loader-page')[0].style = 'width: 0;'
-    setTimeout(function() {
-      $('.loader-page')[0].outerHTML = ''
+$(window).bind("load", function () {
+  $('.loader-page')[0].style = 'width: 0;'
+  setTimeout(function () {
+    $('.loader-page')[0].outerHTML = ''
+  }, 205)
+
+  // Alert handler
+  if (document.querySelectorAll('.alert').length > 0) {
+    setTimeout(function () {
+      $('.alert')[0].classList.remove('alert-initial')
     }, 205)
+    setTimeout(function () {
+      $('.alert')[0].classList.add('outside')
+      setTimeout(function () {
+        $('.alert')[0].style.left = '100vw'
+      }, 50)
+      setTimeout(function () {
+        $('.alert')[0].outerHTML = ''
+      }, 500)
+    }, 5000)
+    var containerElement = document.querySelector('.alerts');
+    var activeRegion = ZingTouch.Region(containerElement);
+    var childElement = document.querySelector('.alert');
+    activeRegion.bind(childElement, 'pan', function (e) {
+      console.log(e)
+      if ((45 > e.detail.data[0].currentDirection && e.detail.data[0].currentDirection >= 0) || (e.detail.data[0].currentDirection > 315)) {
+        childElement.style.left = e.detail.data[0].distanceFromOrigin + 'px';
+        if (e.detail.data[0].distanceFromOrigin > 100) {
+          setTimeout(function () {
+
+            childElement.style.left = '100vw'
+          }, 205)
+        }
+      }
+      //Perform Operations
+    });
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -41,19 +73,25 @@ document.addEventListener('DOMContentLoaded', () => {
   // init Materialize
   $('.materialboxed').materialbox();
   var elems = $('.slider');
-  var options = {'duration': 500, 'height': 400}
+  var options = {
+    'duration': 500,
+    'height': 400
+  }
   var instances = M.Slider.init(elems, options);
-
-  // $('.loader-page')[0].outerHTML = ''
 });
 
 function modalShow(el) {
   $(el).parent().find('.modal')[0].style.display = 'block';
 }
+
 function modalHide(el) {
   $(el).parent()[0].style.display = 'none';
 }
 
+function flash(elem) {
+  console.log('FLAAASH')
+  $(elem)[0].classList.remove('alert-initial')
+}
 
 function getFileData(myFile) {
 
