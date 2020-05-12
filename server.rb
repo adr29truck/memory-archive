@@ -2,7 +2,6 @@
 
 require 'dotenv'
 require 'securerandom'
-require 'sinatra/flash'
 
 Dotenv.load
 
@@ -207,6 +206,18 @@ class Server < Sinatra::Base
 
     session[:class_id] = x.id
     redirect "/group/users?=#{x.id}"
+  end
+
+  # TODO:
+  get '/manage_group' do
+    ids = []
+    @groups.each do |ent|
+      ids << ent.group_id
+    end
+
+    Classes.where(id: ids)
+
+    slim :group_manage
   end
 
   get '/new_password' do
