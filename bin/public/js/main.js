@@ -82,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'height': 400
   }
   var instances = M.Slider.init(elems, options);
+  
+  $('.collapsible').collapsible();  
 });
 
 function modalShow(el) {
@@ -117,3 +119,4 @@ function expandNav(el) {
 function hideAlert(el) {
   $(el).parent().parent()[0].outerHTML = ''
 }
+

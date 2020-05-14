@@ -332,4 +332,8 @@ class Server < Sinatra::Base
   not_found do
     slim :not_found
   end
+
+  get '/faq/?' do
+    slim :faq
+  end
 end
