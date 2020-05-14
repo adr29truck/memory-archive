@@ -1,13 +1,14 @@
 .wrapper{
     position: relative;
     top: 30px;
+    min-height: 90vh;
 }
 
 .hidden{
   display: none;
 }
 
-.register-body{
+.form-body{
     height: 100%;
     width: 100%;
     // background-color: black;
@@ -16,26 +17,24 @@
     justify-content: center;
 }
 
-.register-form{
+.form{
     background-color: #fff;
     padding: 20px;
     width: 90%;
     border-radius: 5px;
-}
-.login-body{
-    height: 100%;
-    width: 100%;
-    // background-color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.login-form{
-    background-color: #fff;
-    padding: 20px;
-    width: 90%;
-    border-radius: 5px;
+@media only screen and (min-width: 1024px) {
+  .form-body {
+    height: 100%;
+    height: 90vh;
+  }
+  .form{
+    margin-top: auto;
+    margin-bottom: auto;
+    max-width: 50vw;
+    padding: 50px;
+  }
 }
 
 figure {
