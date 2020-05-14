@@ -42,6 +42,11 @@ figure {
     }
 }
 
+.slider.fullscreen {
+  height: 100% !important;
+}
+
+// Alerts
 .alerts {
   position: fixed;
   top: 10vh;
