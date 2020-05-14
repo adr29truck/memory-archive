@@ -19,7 +19,7 @@ html lang="en"
     script src="/js/materialize.min.js"
     script src="/js/zingtouch.min.js"
     script src="/js/main.js"
-  body.has-navbar-fixed-top
+  body.has-navbar-fixed-top  style="#{(@path == '/' && @logged_in.nil?) ? 'overflow: hidden; height: 100vh;' : ''}"
     .loader-page
       .body
         span

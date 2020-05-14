@@ -29,6 +29,7 @@ class Server < Sinatra::Base
   end
 
   get '/' do
+    @path = '/'
     # flash[:notice] = "Hooray, Flash is working!"
 
     if !params[:group_id].nil? && UserClass.where(user_id: @logged_in, class_id: params[:group_id]).all.length == 1

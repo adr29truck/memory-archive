@@ -1,6 +1,6 @@
-section.hero.is-info.is-large.no-gap
-  - if @logged_in == nil
-    .slider
+section.hero.is-info.is-large.no-gap style="#{(@logged_in.nil? ? 'height: calc(100vh - 30px);' : '')}"    
+  - if @logged_in.nil?
+    .slider.fullscreen
       ul.slides
         li
           img src="/img/hero_festival.jpg" /
@@ -29,55 +29,41 @@ section.hero.is-info.is-large.no-gap
         h1.title Time to archive your memmories
         h2.subtitle Join or create a group by using the menu above
 
-section
-  #columns.article-feed
+- if !@logged_in.nil?
+  section
+    #columns.article-feed
+      - if !@posts.nil?
+        - video = ['mp4']
+        - @posts.each do |post|
+          figure
+            - if video.include?(post.img_path.split('.').last)
+              video controls="true" width="320" height="240"
+                source src="/files/#{post.img_path}" type="video/mp4"
+            - else
+              img.materialboxed alt="" src="/files/#{post.img_path}" 
+              
+            .media-content
+              p.subtitle.is-6 Uploaded by #{post.author}
+            .content
+              | #{post.message}
+              br/
+              time datetime="2016-1-1"  11:09 PM - 1 Jan 2016
+              - if @logged_in == post.author_id
+                a href="/post/#{post.id}/delete"
+                  span.tag.is-light Delete
+        - if @more_content == true
+          p.pagination
+            a.pagination__next href="/?page=#{@page+1}"  Next page
     - if !@posts.nil?
-      - video = ['mp4']
-      - @posts.each do |post|
-        figure
-          - if video.include?(post.img_path.split('.').last)
-            video controls="true" width="320" height="240"
-              source src="/files/#{post.img_path}" type="video/mp4"
-          - else
-            img.materialboxed alt="" src="/files/#{post.img_path}" 
-            
-          .media-content
-            p.subtitle.is-6 Uploaded by #{post.author}
-          .content
-            | #{post.message}
-            br/
-            time datetime="2016-1-1"  11:09 PM - 1 Jan 2016
-            - if @logged_in == post.author_id
-              a href="/post/#{post.id}/delete"
-                span.tag.is-light Delete
-      - if @more_content == true
-        p.pagination
-          a.pagination__next href="/?page=#{@page+1}"  Next page
-  - if !@posts.nil?
-    .scroller-status
-      / Loading...
-      .infinite-scroll-request.container.is-widescreen
-        .spinner-layer.spinner-yellow
-          .circle-clipper.left
-            .circle
-          .gap-patch
-            .circle
-          .circle-clipper.right
-            .circle
+      .scroller-status
+        / Loading...
+        .infinite-scroll-request.container.is-widescreen
+          .spinner-layer.spinner-yellow
+            .circle-clipper.left
+              .circle
+            .gap-patch
+              .circle
+            .circle-clipper.right
+              .circle
 
-      p.infinite-scroll-last.container.is-widescreen No more content
-
-
-    
-/ - if @alert
-/   .alerts
-/     == slim :'partials/alert'
-
-
-/ container
-/   h1.title Nyheter
-/   - @posts.each do |post|
-/     == slim :'partials/news', locals: {post: post, collapse: true}
-/   .box
-/     a href="/news"
-/       h3.subtitle Se alla nyheter
+        p.infinite-scroll-last.container.is-widescreen No more content
