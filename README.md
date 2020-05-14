@@ -1,3 +1,3 @@
-# memmory-archive
+# memory-archive
 
 #### Archiving Images and videos for the future, using a modern web application.
