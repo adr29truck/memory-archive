@@ -3,6 +3,10 @@
     top: 30px;
 }
 
+.hidden{
+  display: none;
+}
+
 .register-body{
     height: 100%;
     width: 100%;
@@ -86,7 +90,7 @@ figure {
 .loader-page {
     position: fixed;
     top: 0;
-    left: 0;
+    right: 0;
     transition: all .2s ease;
     width: 100vw;
     height: 100vh;
