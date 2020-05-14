@@ -1,20 +1,20 @@
-form method="post" action="/post/create" enctype="multipart/form-data"
-  .field
-    label.label Comment
-    .control
-      textarea.textarea placeholder="Comment" type="text" name="message"
-  .file.has-name-is-right
-    label.file-label
-      input.file-input name="file" type="file" multiple="true" onchange="getFileData(this);" accept=".pdf,.jpg,.jpeg,.png,.raw,.doc,.docx,.ppt,.pptx,.ppsx,.mp4,.mp3,.xlsx,.xlsm,.xltk,.xltm,.txt,.xml,.zip,.wav,.rar,.z,.7z,.csv,.log,.gif,.bmp,.key,.odp,.ods,.mov.,odt"/
-      span.file-cta
-        span.file-icon
-          i.material-icons cloud_upload
-        span.file-label
-          | Chose File
+.register-body
+  .register-form
+    h1.title.is-5 Add a new memmory
+    form method="post" action="/post/create" enctype="multipart/form-data"
+      .field
+        label.label Comment
+        .control
+          textarea.textarea placeholder="Comment" type="text" name="message"
+      .file.has-name-is-right
+        label.file-label
+          input.file-input name="file" type="file" multiple="true" onchange="getFileData(this);" accept=".pdf,.jpg,.jpeg,.png,.raw,.doc,.docx,.ppt,.pptx,.ppsx,.mp4,.mp3,.xlsx,.xlsm,.xltk,.xltm,.txt,.xml,.zip,.wav,.rar,.z,.7z,.csv,.log,.gif,.bmp,.key,.odp,.ods,.mov.,odt"/
+          span.file-cta
+            span.file-icon
+              i.material-icons cloud_upload
+            span.file-label
+              | Choose File
 
-
-  .field.is-grouped
-    .control
-      button.button.is-link type="submit" value="publish" Publish
-
-        
+      .field.is-grouped
+        .control
+          button.button.is-link type="submit" value="publish" Publish
