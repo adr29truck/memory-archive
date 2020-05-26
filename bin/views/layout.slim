@@ -17,7 +17,6 @@ html lang="en"
     script src="/js/jquery-3.5.5.min.js"
     script src="/js/infinite-scroll.pkgd.min.js"
     script src="/js/materialize.min.js"
-    script src="/js/zingtouch.min.js"
     script src="/js/main.js"
   body.has-navbar-fixed-top  style="#{(@path == '/' && @logged_in.nil?) ? 'overflow: hidden; height: 100vh;' : ''}"
     .loader-page
@@ -36,7 +35,16 @@ html lang="en"
         span
         span
       h1 Loading
-    / a onclick="M.toast({html: 'I am a toast'})" class="btn" Toast!
+      javascript:
+        setTimeout(function () {
+          x = document.createElement('div')
+          x.style='position: fixed; top: 2em; left: 0; width: 100vw; text-align: center; overflow: hidden;'
+          x.innerHTML = 'This is taking a while.. <br>Are you connected to WIFI?'
+          if (!!window.chrome == false || !!window.chrome == undefined){
+            x.innerHTML += '<br><br>Try using the Chrome Browser.'
+          }
+          document.querySelector('.loader-page').append(x)
+        }, 5000)
     nav.navbar.is-fixed-top aria-label=("main navigation") role="navigation" 
       .navbar-brand
         a.navbar-item href="/" 
