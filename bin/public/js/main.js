@@ -65,7 +65,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   var instances = M.Slider.init(elems, options);
   
-  $('.collapsible').collapsible();  
+  $('.collapsible').collapsible();
+  
+  // Fetch higher res images if not on mobile
+  // TODO: Make the transition smooth
+  // The new image should display first when fully fetched
+  $(function() {      
+    let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+    if (isMobile == false) {
+      
+      $('.slides > li > img').each(function (el) {
+        console.log(el)
+        if (el.backgroundImage == 'url(/img/hero_festival-min.jpg)') {
+          el.src = 'url(/img/hero_festival.jpg)'
+        } else if (el.backgroundImage == 'url(/img/hero_sunset-min.jpg)') {
+          el.src = 'url(/img/hero_sunset.jpg)'
+        }
+      })
+    }
+ });
 });
 
 function modalShow(el) {
