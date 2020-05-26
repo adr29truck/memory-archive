@@ -17,7 +17,7 @@ class Server < Sinatra::Base
     unless @logged_in.nil?
       @groups = UserClass.where(user_id: @logged_in).join(:classes, id: :class_id).all.objectify('Classes')
     end
-    
+
     @error_severity = session[:error_severity]
     if @error_severity.nil?
       @error_severity = 'danger'
@@ -74,18 +74,22 @@ class Server < Sinatra::Base
   end
 
   post '/post/create' do
-    file = params['file']
-    tempfile = file[:tempfile]
-    filename = file[:filename]
+    begin
+      file = params['file']
+      tempfile = file[:tempfile]
+      filename = file[:filename]
 
-    path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
-    File.open('./bin/public/files/' + path, 'wb') do |f|
-      f.write(tempfile.read)
+      path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
+      File.open('./bin/public/files/' + path, 'wb') do |f|
+        f.write(tempfile.read)
+      end
+
+      x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
+      x.save
+    rescue
+      session[:error_message] = 'Something went wrong. Try again.'
+      redirect '/post/create'
     end
-
-    x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
-    x.save
-
     redirect "/post/#{x.id}"
   end
 
@@ -93,6 +97,7 @@ class Server < Sinatra::Base
     user = User.new params
     x = User.where(email: params['email'])
     if x.all.empty?
+      session[:error_severity] = 'info'
       session[:error_message] = 'No user with those details exists.'
       redirect '/login'
     end
@@ -106,6 +111,7 @@ class Server < Sinatra::Base
         session[:error_message] = 'No groups.'
       end
     else
+      session[:error_severity] = 'info'
       session[:error_message] = 'No user with those details exists.'
       redirect '/login'
     end
@@ -255,6 +261,7 @@ class Server < Sinatra::Base
     user = User.fetch.where(email: params['email']).all.objectify('User')
     p user
     if user.nil? || user == []
+      session[:error_message] = 'No user with those details found.'
       redirect back
     else
       identifier = user.first.reset_password
@@ -308,11 +315,11 @@ class Server < Sinatra::Base
             # The HELO domain provided by the client to the server
           }
         )
-        session[:error] = 'Message sent successfully'
-        session[:error_type] = 200
+        session[:error_message] = 'A email with details on how to reset your password has been sent to the given email address'
+        session[:error_severity] = 'valid'
       rescue StandardError
         session[:error] = 'Something went wrong. Try again'
-        session[:error_type] = 500
+        session[:error_severity] = 'danger'
       ensure
         redirect back
       end

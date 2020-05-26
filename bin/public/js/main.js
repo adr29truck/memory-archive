@@ -5,8 +5,17 @@ $(window).bind("load", function () {
   }, 205)
 
   if (document.querySelectorAll('.alert').length > 0) {
-    alert_text = document.querySelector('.alert').innerHTML
-    M.toast({html: alert_text})
+    $('.alert').each( function (key, el) {
+      alert_text = el.innerHTML
+      if (el.classList.contains('alert-danger') === true) {
+        status = 'alert-danger'
+      } else if (el.classList.contains('alert-valid') === true){
+        status = 'alert-valid'
+      } else {
+        status = ''
+      }
+      M.toast({html: alert_text, classes: status })
+    })
   }
 });
 
@@ -44,14 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $('.article-feed').on('append.infiniteScroll', function(event, response, path, items ) {
-    // parse JSON
-    console.log(response)
-    console.log(items)
     $(items).find('.materialboxed').materialbox();
-    
-    // response.$
-    // var data = JSON.parse(response);
-    // do something with JSON...
   });
 
   // init Materialize
