@@ -45,6 +45,26 @@ figure {
   }
 }
 
+.banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: grey;
+  color: white;
+  p {
+    margin-top: 1em;
+    padding: 5px;
+    text-align: center;
+  }
+  a {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+  }
+}
+
 .fixed-button {
   position: fixed;
   right: 1em;

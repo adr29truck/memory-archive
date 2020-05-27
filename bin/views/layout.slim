@@ -100,7 +100,6 @@ html lang="en"
               - else
                 a.button.is-light href="/logout"
                   | Sign out
-
     / - if !@cookies_allowed
       .cookies
         iframe#dummyframe name="dummyframe" style=("display: none;") 
@@ -139,3 +138,7 @@ html lang="en"
     .wrapper
       ==slim :partial_flash
       ==yield
+    - if @first_time
+      .banner
+        p This page utilizes cookies in order to function properly. By continuing to use this page you agree to cookies being stored on your device in order for the site to function properly.
+        a.delete onclick="removeBanner(this)"

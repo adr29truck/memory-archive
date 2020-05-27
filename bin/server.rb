@@ -9,6 +9,12 @@ Dotenv.load
 class Server < Sinatra::Base
   enable :sessions
   before do
+    if session[:cookie].nil?
+      @first_time = true
+      session[:cookie] = 'true'
+    else
+      @first_time = false
+    end
     @admin = session[:admin]
     @logged_in = session[:user_id]
     @cookies_allowed = session[:cookies]

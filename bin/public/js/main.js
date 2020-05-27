@@ -95,6 +95,10 @@ function modalHide(el) {
   $(el).parent()[0].style.display = 'none';
 }
 
+function removeBanner(el) {
+  $(el).parent()[0].outerHTML = ''
+}
+
 function flash(elem) {
   console.log('FLAAASH')
   $(elem)[0].classList.remove('alert-initial')
