@@ -31,6 +31,13 @@ section.hero.is-info.is-large.no-gap style="#{(@logged_in.nil? ? 'height: calc(1
 
 - if !@logged_in.nil?
   section
+    - if @admin
+      - if @first_time
+        a.btn-floating.btn-large.waves-effect.waves-light.red.fixed-button.pulse
+          i.material-icons person_add
+      - else
+        a.btn-floating.btn-large.waves-effect.waves-light.red.fixed-button
+          i.material-icons person_add
     #columns.article-feed
       - if !@posts.nil?
         - video = ['mp4']

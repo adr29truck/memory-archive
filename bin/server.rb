@@ -30,7 +30,6 @@ class Server < Sinatra::Base
 
   get '/' do
     @path = '/'
-    # flash[:notice] = "Hooray, Flash is working!"
 
     if !params[:group_id].nil? && UserClass.where(user_id: @logged_in, class_id: params[:group_id]).all.length == 1
       @class_id = params[:group_id]
@@ -38,7 +37,7 @@ class Server < Sinatra::Base
     end
 
     if !@logged_in.nil? && !@class_id.nil?
-      @users = User.fetch.all.objectify('User') # TODO: Optimize this one. Get all names of needed ids in SQL and do not filter users out "manually"
+      @users = User.fetch.join(:user_classes, user_id: :id).where(class_id: @class_id).all.objectify('User') # TODO: Optimize this one. Get all names of needed ids in SQL and do not filter users out "manually"
       if params['page'].nil? || params['page'] == '1'
         @posts = Post.where(class_id: @class_id).order(:time_stamp).reverse.limit(10).all.objectify('Post')
         @page = 1
@@ -59,6 +58,7 @@ class Server < Sinatra::Base
             post.author user.name
           end
         end
+        post.author = 'Removed' if post.author.nil?
       end
     end
 

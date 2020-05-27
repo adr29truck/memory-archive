@@ -80,11 +80,15 @@ html lang="en"
                   | Create Group
                 - if @admin
                   a.navbar-item href="/admin/posts"
-                    | Inlägg
+                    | Posts
                   a.navbar-item href="/admin/users"
-                    | Medlemmar
+                    | Users
+                - if @admin || @super_admin
                   a.navbar-item href="/admin/inbox"
                     | Inbox
+                - if @super_admin
+                  a.navbar-item href="/admin/groups"
+                    | Groups
         .navbar-end
           .navbar-item
             .buttons

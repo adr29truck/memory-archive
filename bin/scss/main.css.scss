@@ -45,6 +45,16 @@ figure {
   }
 }
 
+.fixed-button {
+  position: fixed;
+  right: 1em;
+  bottom: 1em;
+}
+
+.btn-floating:hover {
+  background-color: rgb(219, 84, 84) !important;
+}
+
 .slider.fullscreen {
   height: 100% !important;
 }
