@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   var instances = M.Slider.init(elems, options);
   
+  $('.modal').modal();
   $('.collapsible').collapsible();
   
   // Fetch higher res images if not on mobile
@@ -86,6 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
  });
 });
+
+function modalToggle() {
+  if ($('.modal')[0].style.display == 'block'){
+    $('.modal')[0].style.display = 'none';
+  } else {
+    $('.modal')[0].style.display = 'block';
+  }
+}
 
 function modalShow(el) {
   $(el).parent().find('.modal')[0].style.display = 'block';
