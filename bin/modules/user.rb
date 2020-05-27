@@ -5,7 +5,7 @@ require_relative 'application_controller'
 
 # Handles user specific methods
 class User < ApplicationController
-  set_columns :id, :name, :email, :encrypted_password, :admin
+  set_columns :id, :name, :email, :encrypted_password, :admin, :verified
   set_table :user
 
   # Creates a new user based on provided params
@@ -39,9 +39,6 @@ class User < ApplicationController
   end
 
   def reset_password
-    self.encrypted_password = 'potatis'
-    self.save
-
     ResetPassword.reset(user_id: self.id)
   end
 end
