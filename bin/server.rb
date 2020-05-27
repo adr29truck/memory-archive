@@ -73,6 +73,7 @@ class Server < Sinatra::Base
   end
 
   get '/login/?' do
+    session[:reverse] = back
     slim :login
   end
 
@@ -120,9 +121,10 @@ class Server < Sinatra::Base
     else
       session[:error_severity] = 'info'
       session[:error_message] = 'No user with those details exists.'
-      redirect '/login'
+      redirect '/'
     end
-    redirect '/'
+    redirect '/' if session[:reverse].nil?
+    redirect session[:reverse] 
   end
 
   get '/logout/?' do
@@ -133,6 +135,7 @@ class Server < Sinatra::Base
   end
 
   get '/register/?' do
+    session[:reverse] = back
     slim :register
   end
 
@@ -147,7 +150,8 @@ class Server < Sinatra::Base
       user = User.create params
       user.save
       session[:user_id] = user.id
-      redirect '/'
+      redirect '/' if session[:reverse].nil?
+      redirect session[:reverse]
     else
       session[:error_message] = 'There is already an account with that email adress registered. Have you forgotten your password?'
       redirect '/login'
@@ -221,6 +225,47 @@ class Server < Sinatra::Base
     session[:class_id] = x.id
     redirect "/group/users?=#{x.id}"
   end
+
+  post '/group/invite/new' do
+    begin
+      group = @groups.map{|e| e if e.id == @class_id}.first
+
+      body = "You have been invited to #{group.name}" +
+      "To join register an account if you do not already have one and then use the link below" +
+      " #{ENV['URL']}/group/join?identifier=#{group.identifier}"
+      non_html = body
+
+      params['email'].split(',').each do |email|
+        p email
+        Pony.mail(
+          to: email,
+          subject: 'Group Invite',
+          html_body: body,
+          body: non_html,
+          via: :smtp,
+          via_options: {
+            address: 'smtp.gmail.com',
+            port: '587',
+            enable_starttls_auto: true,
+            user_name: 'bobbisbyggaren@gmail.com',
+            password: ENV['SMTP_PASSWORD'],
+            authentication: :plain, # :plain, :login, :cram_md5, no auth by default
+            domain: 'localhost.localdomain'
+            # The HELO domain provided by the client to the server
+          }
+        )
+      end
+
+      session[:error_message] = 'A email with details on how to join has been sent to the provided adresses.'
+      session[:error_severity] = 'valid'
+    rescue StandardError
+      session[:error] = 'Something went wrong. Try again'
+      session[:error_severity] = 'danger'
+    ensure
+      redirect back
+    end
+  end
+
 
   # TODO:
   get '/manage_group' do
