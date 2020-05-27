@@ -273,34 +273,32 @@ class Server < Sinatra::Base
     else
       identifier = user.first.reset_password
       p identifier
-      # <header style='width: 100%; height: 10vh; max-height: 100px; background: url('#{ENV['URL']}/img/hero_default.png')'> </header>
       body = "
-        <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+      <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
         <html xmlns='http://www.w3.org/1999/xhtml'>
         <head>
           <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
           <title>Memmory Archive</title>
           <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
-        </head>
-        <body syle='width: 100%; min-height: 100vh;'>
-        <div>
-          <header style='width: 100%; height: 10vh; max-height: 100px; background: url('http://localhost:9292/img/hero_default.png')'> </header>
-          <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
-            <h1 style='text-align: center; width: 100%;'>Memmory Archive </h1>
-            <div style='height: 30px;'></div>
-            <h2 style='text-align: center; width: 100%;'>Password Reset </h2>
-            <p>Someone requested that the password for an account associated with your emailadress should be changed.<p>
-            <p>Reset your password by pressing <a href='#{ENV['URL']}/new_password?identifier=#{identifier}' style='font-weight: bold;'>here</a></p>
-        </div>
-        <footer style='width: 100%; padding: 0.5em;'>
-            <p style='width: 100%; text-align: center;'>If you did not request a password reset you will need to do a password reset the next time you intend to sign in.</p>
-        </footer>
-        </div>
-        </body>
+          </head>
+          <body style='width: 100%;'>
+          <div style='width: 100%; height: 10vh; max-height: 100px; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
+          </div>
+            <div>
+              <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
+                <h1 style='text-align: center; width: 100%;'>Memmory Archive </h1>
+                <div style='height: 30px;'></div>
+                <h2 style='text-align: center; width: 100%;'>Password Reset </h2>
+                <p style='text-align: center;'>Someone requested that the password for an account associated with your email should be changed.<p>
+                <p style='text-align: center;'>Reset your password by pressing <a href='#{ENV['URL']}/new_password?identifier=#{identifier}' style='font-weight: bold;'>here</a></p>
+              </div>
+              <footer style='width: 100%; padding: 0.5em;'>
+                  <p style='width: 100%; text-align: center;'>If you did not request a password reset you can ignore this email.</p>
+              </footer>
+            </div>
+          </body>
         </html>"
       non_html = "Memmory Archive\nReset your password by visiting  #{ENV['URL']}/new_password?identifier=#{identifier} \nIf you did not request a password reset you do not have to take any further action."
-
-      # image = File.open('./public/img/hero_default.jpg')
 
       begin
 
