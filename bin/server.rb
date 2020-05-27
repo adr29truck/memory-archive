@@ -15,19 +15,20 @@ class Server < Sinatra::Base
     else
       @first_time = false
     end
-    @admin = session[:admin]
+    @super_admin = session[:super_admin]
     @logged_in = session[:user_id]
     @cookies_allowed = session[:cookies]
     @class_id = session[:class_id]
+    @admin = false
 
     unless @logged_in.nil?
       @groups = UserClass.where(user_id: @logged_in).join(:classes, id: :class_id).all.objectify('Classes')
+      @admin = @groups.map{ |e| e.class_id == @class_id}.first
     end
 
     @error_severity = session[:error_severity]
-    if @error_severity.nil?
-      @error_severity = 'danger'
-    end
+    @error_severity = 'danger' if @error_severity.nil?
+
     @flash = [[session[:error_message], @error_severity]]
     session[:error_message] = nil
     session[:error_severity] = nil
@@ -110,7 +111,7 @@ class Server < Sinatra::Base
     x = x.first.objectify('User')
     if x == user
       session[:user_id] = x.id
-      session[:admin] = x.admin == 1
+      session[:super_admin] = x.admin == 1
       begin
         session[:class_id] = UserClass.fetch.where(user_id: x.id).all.objectify('UserClass').first.class_id
       rescue StandardError
