@@ -32,11 +32,15 @@ section.hero.is-info.is-large.no-gap style="#{(@logged_in.nil? ? 'height: calc(1
 - if !@logged_in.nil?
   section
     - if @admin && !@groups.nil?
-      - if @first_time
-        a.btn-floating.btn-large.waves-effect.waves-light.red.fixed-button.pulse onclick="modalToggle()"
+      - if @first_visit
+        a.btn-floating.btn-large.waves-effect.waves-light.red.fixed-button#add onclick="modalToggle();"
           i.material-icons person_add
+        javascript:
+          $(document).ready(function(){
+            $('.tap-target').tapTarget('open');
+          });
       - else
-        a.btn-floating.btn-large.waves-effect.waves-light.red.fixed-button onclick="modalToggle()"
+        a.btn-floating.btn-large.waves-effect.waves-light.red.fixed-button#add onclick="modalToggle()"
           i.material-icons person_add
     #columns.article-feed
       - if !@posts.nil?
@@ -75,6 +79,7 @@ section.hero.is-info.is-large.no-gap style="#{(@logged_in.nil? ? 'height: calc(1
 
         p.infinite-scroll-last.container.is-widescreen No more content
   #modal1.modal
+    a.delete onclick="hideModal(this)"
     .form-body
       .form
         h1.title.is-3 Invite new members
@@ -87,3 +92,9 @@ section.hero.is-info.is-large.no-gap style="#{(@logged_in.nil? ? 'height: calc(1
           .field.is-grouped
             .control
               button.button.is-link type="submit" Invite
+    .group_code
+      h1.title.is-4 Group code:
+      h2.subtilte style="background: lightgrey; padding:  4px; text-align: center;" #{@groups.select{ |e| e if e.id.to_i == @class_id.to_i}.first.identifier}
+  .tap-target data-target="add" 
+    .tap-target-content
+      p Use this button to invite new users to your group.

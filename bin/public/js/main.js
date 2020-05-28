@@ -108,6 +108,10 @@ function removeBanner(el) {
   $(el).parent()[0].outerHTML = ''
 }
 
+function hideModal(el) {
+  $(el).parent()[0].style.display = 'none'
+}
+
 function flash(elem) {
   console.log('FLAAASH')
   $(elem)[0].classList.remove('alert-initial')
