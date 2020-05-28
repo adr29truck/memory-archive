@@ -61,9 +61,7 @@ class Server < Sinatra::Base
       # Adds the author name
       @posts.each do |post|
         @users.each do |user|
-          if post.author_id.to_i == user.id.to_i
-            post.author user.name
-          end
+          post.author user.name if post.author_id.to_i == user.id.to_i
         end
         post.author = 'Removed' if post.author.nil?
       end
@@ -94,7 +92,7 @@ class Server < Sinatra::Base
 
       x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
       x.save
-    rescue
+    rescue StandardError
       session[:error_message] = 'Something went wrong. Try again.'
       redirect '/post/create'
     end
@@ -176,7 +174,7 @@ class Server < Sinatra::Base
     if @logged_in.is_a? Integer
       begin
         id = Classes.where(identifier: params['identifier']).first.objectify('Classes').id
-      rescue
+      rescue StandardError
         session[:error_message] = 'Invalid group code'
         redirect back
       end
@@ -192,7 +190,7 @@ class Server < Sinatra::Base
         z = UserClass.new(user_id: @logged_in, class_id: id, admin: 0)
         z.save
         redirect "/?group_id=#{id}"
-      rescue
+      rescue StandardError
         session[:error_message] = 'Invalid group code'
         redirect back
       end
@@ -232,16 +230,16 @@ class Server < Sinatra::Base
     z.save
 
     session[:class_id] = x.id
-    redirect "/group/users?=#{x.id}"
+    redirect '/'
   end
 
   post '/group/invite/new' do
     begin
-      group = @groups.map{|e| e if e.id == @class_id}.first
+      group = @groups.map { |e| e if e.id == @class_id }.first
 
-      body = "You have been invited to #{group.name}" +
-      "To join register an account if you do not already have one and then use the link below" +
-      " #{ENV['URL']}/group/join?identifier=#{group.identifier}"
+      body = "You have been invited to #{group.name}" \
+             'To join register an account if you do not already have one and then use the link below' \
+             " #{ENV['URL']}/group/join?identifier=#{group.identifier}"
       non_html = body
 
       params['email'].split(',').each do |email|
@@ -275,7 +273,6 @@ class Server < Sinatra::Base
     end
   end
 
-
   # TODO:
   get '/manage_group' do
     ids = []
@@ -298,7 +295,7 @@ class Server < Sinatra::Base
       user = User.fetch.where(identifier: params['identifier']).join(:reset_password, user_id: :id).first.objectify('User')
       user.remove_instance_variable(:@user_id)
       user.remove_instance_variable(:@identifier)
-    rescue
+    rescue StandardError
       session[:error_message] = 'The session has expired'
       redirect '/login'
     end
@@ -355,7 +352,6 @@ class Server < Sinatra::Base
       non_html = "Memmory Archive\nReset your password by visiting  #{ENV['URL']}/new_password?identifier=#{identifier} \nIf you did not request a password reset you do not have to take any further action."
 
       begin
-
         Pony.mail(
           to: params['email'],
           subject: 'Password reset',
@@ -384,7 +380,6 @@ class Server < Sinatra::Base
       end
     end
   end
-
 
   post '/cookie_deny' do
     session[:cookies] = false
