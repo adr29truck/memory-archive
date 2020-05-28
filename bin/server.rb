@@ -164,6 +164,11 @@ class Server < Sinatra::Base
 
   get '/group/join' do
     @identifier = params['identifier']
+    if !@identifier.nil?
+      @group = Classes.fetch.where(identifier: params['identifier']).all.objectify('Classes')
+    else
+      @group = nil
+    end
     slim :join_group
   end
 
