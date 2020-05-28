@@ -121,10 +121,14 @@ class Server < Sinatra::Base
     else
       session[:error_severity] = 'info'
       session[:error_message] = 'No user with those details exists.'
+      redirect '/login'
+    end
+    if session[:reverse].nil? || !session[:reverse].include?('/login')
       redirect '/'
     end
-    redirect '/' if session[:reverse].nil?
-    redirect session[:reverse] 
+    temp = session[:reverse]
+    session[:reverse] = nil
+    redirect temp
   end
 
   get '/logout/?' do
