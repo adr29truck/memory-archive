@@ -15,15 +15,16 @@ class Server < Sinatra::Base
     else
       @first_time = false
     end
+
+    @first_visit = back.include?('/group/create') unless back.nil?
     @super_admin = session[:super_admin]
     @logged_in = session[:user_id]
     @cookies_allowed = session[:cookies]
     @class_id = session[:class_id]
     @admin = false
-
     unless @logged_in.nil?
       @groups = UserClass.where(user_id: @logged_in).join(:classes, id: :class_id).all.objectify('Classes')
-      @admin = @groups.map{ |e| e.class_id == @class_id}.first
+      @admin = @groups.map { |e| e.class_id.to_i == @class_id.to_i }.include?(true)
     end
 
     @error_severity = session[:error_severity]
