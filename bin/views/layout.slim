@@ -43,7 +43,9 @@ html lang="en"
           if (!!window.chrome == false || !!window.chrome == undefined){
             x.innerHTML += '<br><br>Try using the Chrome Browser.'
           }
+          if (document.querySelector('.loader-page') != null){
           document.querySelector('.loader-page').append(x)
+          }
         }, 5000)
     nav.navbar.is-fixed-top aria-label=("main navigation") role="navigation" 
       .navbar-brand
