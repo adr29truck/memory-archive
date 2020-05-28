@@ -5,16 +5,19 @@ $(window).bind("load", function () {
   }, 205)
 
   if (document.querySelectorAll('.alert').length > 0) {
-    $('.alert').each( function (key, el) {
+    $('.alert').each(function (key, el) {
       alert_text = el.innerHTML
       if (el.classList.contains('alert-danger') === true) {
         status = 'alert-danger'
-      } else if (el.classList.contains('alert-valid') === true){
+      } else if (el.classList.contains('alert-valid') === true) {
         status = 'alert-valid'
       } else {
         status = ''
       }
-      M.toast({html: alert_text, classes: status })
+      M.toast({
+        html: alert_text,
+        classes: status
+      })
     })
   }
 });
@@ -52,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     prefill: true,
   });
 
-  $('.article-feed').on('append.infiniteScroll', function(event, response, path, items ) {
+  $('.article-feed').on('append.infiniteScroll', function (event, response, path, items) {
     $(items).find('.materialboxed').materialbox();
   });
 
@@ -64,18 +67,19 @@ document.addEventListener('DOMContentLoaded', () => {
     'height': 400
   }
   var instances = M.Slider.init(elems, options);
-  
+
   $('.modal').modal();
   $('.collapsible').collapsible();
-  
+  $('.tap-target').tapTarget();
+
   // Fetch higher res images if not on mobile
   // TODO: Make the transition smooth
   // The new image should display first when fully fetched
-  $(function() {      
+  $(function () {
     let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
 
     if (isMobile == false) {
-      
+
       $('.slides > li > img').each(function (el) {
         console.log(el)
         if (el.backgroundImage == 'url(/img/hero_festival-min.jpg)') {
@@ -85,11 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       })
     }
- });
+  });
 });
 
 function modalToggle() {
-  if ($('.modal')[0].style.display == 'block'){
+  if ($('.modal')[0].style.display == 'block') {
     $('.modal')[0].style.display = 'none';
   } else {
     $('.modal')[0].style.display = 'block';
@@ -137,4 +141,3 @@ function expandNav(el) {
 function hideAlert(el) {
   $(el).parent().parent()[0].outerHTML = ''
 }
-
