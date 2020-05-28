@@ -27,11 +27,9 @@ class User < ApplicationController
   end
 
   def ==(other)
-    begin
-      BCrypt::Password.new(encrypted_password) == other.password
-    rescue
-      false
-    end
+    BCrypt::Password.new(encrypted_password) == other.password
+  rescue StandardError
+    false
   end
 
   def new_password(new_pass)
@@ -39,6 +37,6 @@ class User < ApplicationController
   end
 
   def reset_password
-    ResetPassword.reset(user_id: self.id)
+    ResetPassword.reset(user_id: id)
   end
 end

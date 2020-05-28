@@ -12,7 +12,7 @@ class ResetPassword < ApplicationController
     ResetPassword.fetch.where(user_id: params[:user_id]).delete
 
     params['identifier'] = SecureRandom.uuid
-    x = self.new params
+    x = new params
     x.save
 
     params['identifier']

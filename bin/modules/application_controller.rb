@@ -110,7 +110,7 @@ class ApplicationController
               elsif !self.class.table.nil?
                 DB[:"#{self.class.table}"]
               else
-                DB[:"#{self.to_s.downcase}"]
+                DB[:"#{to_s.downcase}"]
               end
 
     if instance_variables.include?(:@id) && id.is_a?(Integer)
