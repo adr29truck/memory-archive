@@ -77,27 +77,36 @@ class Server < Sinatra::Base
   end
 
   get '/post/create' do
-    slim :create_post
+    if !@logged_in.nil? && !@class_id.nil?
+      slim :create_post
+    else
+      redirect '/'
+    end
   end
 
   post '/post/create' do
-    begin
-      file = params['file']
-      tempfile = file[:tempfile]
-      filename = file[:filename]
+    if !@logged_in.nil? && !@class_id.nil?
+      begin
+        file = params['file']
+        tempfile = file[:tempfile]
+        filename = file[:filename]
 
-      path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
-      File.open('./bin/public/files/' + path, 'wb') do |f|
-        f.write(tempfile.read)
+        path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
+        File.open('./bin/public/files/' + path, 'wb') do |f|
+          f.write(tempfile.read)
+        end
+
+        x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
+        x.save
+      rescue StandardError
+        session[:error_message] = 'Something went wrong. Try again.'
+        redirect '/post/create'
       end
-
-      x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
-      x.save
-    rescue StandardError
-      session[:error_message] = 'Something went wrong. Try again.'
-      redirect '/post/create'
+      redirect "/post/#{x.id}"
+    else
+      session[:error_message] = 'Insufficient privilege'
+      redirect '/'
     end
-    redirect "/post/#{x.id}"
   end
 
   post '/login' do
@@ -153,7 +162,7 @@ class Server < Sinatra::Base
       user = User.create params
       user.save
       session[:user_id] = user.id
-      redirect '/' if session[:reverse].nil?
+      redirect '/' if session[:reverse].nil? || session[:reverse].include?('/login') || session[:reverse].include?('/register')
       redirect session[:reverse]
     else
       session[:error_message] = 'There is already an account with that email adress registered. Have you forgotten your password?'
@@ -162,13 +171,18 @@ class Server < Sinatra::Base
   end
 
   get '/group/join' do
-    @identifier = params['identifier']
-    if !@identifier.nil?
-      @group = Classes.fetch.where(identifier: params['identifier']).all.objectify('Classes')
+    if !@logged_in.nil?
+      @identifier = params['identifier']
+      if !@identifier.nil?
+        @group = Classes.fetch.where(identifier: params['identifier']).all.objectify('Classes')
+      else
+        @group = nil
+      end
+      slim :join_group
     else
-      @group = nil
+      session[:error_message] = 'Not signed in'
+      redirect '/'
     end
-    slim :join_group
   end
 
   post '/group/join' do
@@ -190,6 +204,8 @@ class Server < Sinatra::Base
       begin
         z = UserClass.new(user_id: @logged_in, class_id: id, admin: 0)
         z.save
+        session[:error_message] = 'Successfully joined group'
+        session[:error_severity] = 'valid'
         redirect "/?group_id=#{id}"
       rescue StandardError
         session[:error_message] = 'Invalid group code'
@@ -203,99 +219,114 @@ class Server < Sinatra::Base
   end
 
   get '/group/create' do
-    slim :create_group
+    if !@logged_in.nil?
+      slim :create_group
+    else
+      session[:error_message] = 'Not signed in'
+      redirect '/'
+    end
   end
 
   post '/group/create' do
-    begin
-      file = params['file']
-      tempfile = file[:tempfile]
-      filename = file[:filename]
+    if !@logged_in.nil?
+      begin
+        file = params['file']
+        tempfile = file[:tempfile]
+        filename = file[:filename]
 
-      path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
-      File.open('./bin/public/files/' + path, 'wb') do |f|
-        f.write(tempfile.read)
+        path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
+        File.open('./bin/public/files/' + path, 'wb') do |f|
+          f.write(tempfile.read)
+        end
+        params.delete :file
+
+        params[:img_path] = path
+      rescue StandardError
+        params[:img_path] = 'default_img.png'
       end
-      params.delete :file
 
-      params[:img_path] = path
-    rescue StandardError
-      params[:img_path] = 'default_img.png'
+      params[:identifier] = SecureRandom.uuid
+      x = Classes.new(params)
+      x.save
+
+      z = UserClass.new(user_id: @logged_in, class_id: x.id, admin: 1)
+      z.save
+
+      session[:class_id] = x.id
+      redirect '/'
+    else
+      session[:error_message] = 'Not signed in'
+      redirect '/'
     end
-
-    params[:identifier] = SecureRandom.uuid
-    x = Classes.new(params)
-    x.save
-
-    z = UserClass.new(user_id: @logged_in, class_id: x.id, admin: 1)
-    z.save
-
-    session[:class_id] = x.id
-    redirect '/'
   end
 
   post '/group/invite/new' do
-    begin
-      group = @groups.select { |e| e if e.id == @class_id }.first
+    if !@logged_in.nil?
+      begin
+        group = @groups.select { |e| e if e.id == @class_id }.first
 
-      non_html = "You have been invited to #{group.name}" \
-                 'To join register an account if you do not already have one and then use the link below' \
-                 " #{ENV['URL']}/group/join?identifier=#{group.identifier}"
-      body = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
-        <html xmlns='http://www.w3.org/1999/xhtml'>
-        <head>
-          <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-          <title>Memmory Archive</title>
-          <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
-          </head>
-          <body style='width: 100%;'>
-          <div style='width: 100%; height: 10vh; max-height: 100px; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
-          </div>
-            <div>
-              <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
-                <h1 style='text-align: center; width: 100%;'>Memmory Archive </h1>
-                <div style='height: 30px;'></div>
-                <h2 style='text-align: center; width: 100%;'>Group Invite</h2>
-                <h3 style='text-align: center;'>You have been invited to #{group.name}.</h3>
-                <p style='text-align: center;'>To join register an account if you do not already have one by visiting <a href='#{ENV['URL']}/register' style='font-weight: bold;'>Memory Archive</a>. Then use <a href='#{ENV['URL']}/group/join?identifier=#{group.identifier}'>This link</a> or the code below to join.</p>
-                <div class='group_code' style='margin:auto auto; padding:1em 20px'>
-                  <h2 style='width: 100%; text-align: center;'> Group code</h2>
-                  <h2 class='subtilte' style='background: lightgrey; padding: 4px; text-align: center;'> #{group.identifier}</h2>
-                </div>
-              </div>
-              <footer style='width: 100%; padding: 0.5em;'>
-                  <p style='width: 100%; text-align: center;'>If you do not want to join you can ignore this email.</p>
-              </footer>
+        non_html = "You have been invited to #{group.name}" \
+                  'To join register an account if you do not already have one and then use the link below' \
+                  " #{ENV['URL']}/group/join?identifier=#{group.identifier}"
+        body = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+          <html xmlns='http://www.w3.org/1999/xhtml'>
+          <head>
+            <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+            <title>Memmory Archive</title>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+            </head>
+            <body style='width: 100%;'>
+            <div style='width: 100%; height: 10vh; max-height: 100px; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
             </div>
-          </body>
-        </html>"
+              <div>
+                <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
+                  <h1 style='text-align: center; width: 100%;'>Memmory Archive </h1>
+                  <div style='height: 30px;'></div>
+                  <h2 style='text-align: center; width: 100%;'>Group Invite</h2>
+                  <h3 style='text-align: center;'>You have been invited to #{group.name}</h3>
+                  <p style='text-align: center;'>To join register an account if you do not already have one by visiting <a href='#{ENV['URL']}/register' style='font-weight: bold;'>Memory Archive</a>. Then use <a href='#{ENV['URL']}/group/join?identifier=#{group.identifier}'>This link</a> or the code below to join.</p>
+                  <div class='group_code' style='margin:auto auto; padding:1em 20px'>
+                    <h2 style='width: 100%; text-align: center;'> Group code</h2>
+                    <h2 class='subtilte' style='background: lightgrey; padding: 4px; text-align: center;'> #{group.identifier}</h2>
+                  </div>
+                </div>
+                <footer style='width: 100%; padding: 0.5em;'>
+                    <p style='width: 100%; text-align: center;'>If you do not want to join you can ignore this email.</p>
+                </footer>
+              </div>
+            </body>
+          </html>"
 
-      params['email'].split(',').each do |email|
-        Pony.mail(
-          to: email,
-          subject: 'Group Invite',
-          html_body: body,
-          body: non_html,
-          via: :smtp,
-          via_options: {
-            address: 'smtp.gmail.com',
-            port: '587',
-            enable_starttls_auto: true,
-            user_name: 'bobbisbyggaren@gmail.com',
-            password: ENV['SMTP_PASSWORD'],
-            authentication: :plain,
-            domain: 'localhost.localdomain'
-            # The HELO domain provided by the client to the server
-          }
-        )
+        params['email'].split(',').each do |email|
+          Pony.mail(
+            to: email,
+            subject: 'Group Invite',
+            html_body: body,
+            body: non_html,
+            via: :smtp,
+            via_options: {
+              address: 'smtp.gmail.com',
+              port: '587',
+              enable_starttls_auto: true,
+              user_name: 'bobbisbyggaren@gmail.com',
+              password: ENV['SMTP_PASSWORD'],
+              authentication: :plain,
+              domain: 'localhost.localdomain'
+              # The HELO domain provided by the client to the server
+            }
+          )
+        end
+
+        session[:error_message] = 'A email with details on how to join has been sent to the provided adresses.'
+        session[:error_severity] = 'valid'
+      rescue StandardError
+        session[:error] = 'Something went wrong. Try again'
+        session[:error_severity] = 'danger'
+      ensure
+        redirect back
       end
-
-      session[:error_message] = 'A email with details on how to join has been sent to the provided adresses.'
-      session[:error_severity] = 'valid'
-    rescue StandardError
-      session[:error] = 'Something went wrong. Try again'
-      session[:error_severity] = 'danger'
-    ensure
+    else
+      session[:error_message] = 'Insufficient privilege'
       redirect back
     end
   end
@@ -332,7 +363,7 @@ class Server < Sinatra::Base
       user.new_password params['password']
       user.save
       ResetPassword.fetch.where(identifier: params['identifier']).delete
-
+      session[:error_severity] = 'valid'
       session[:error_message] = 'Password updated'
     end
     redirect '/login'
@@ -344,7 +375,6 @@ class Server < Sinatra::Base
 
   post '/reset_password' do
     user = User.fetch.where(email: params['email']).all.objectify('User')
-    p user
     if user.nil? || user == []
       session[:error_message] = 'No user with those details found.'
       redirect back
