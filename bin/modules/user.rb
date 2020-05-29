@@ -5,7 +5,7 @@ require_relative 'application_controller'
 
 # Handles user specific methods
 class User < ApplicationController
-  set_columns :id, :name, :email, :encrypted_password, :admin, :verified
+  set_columns :id, :name, :email, :encrypted_password, :admin
   set_table :user
 
   # Creates a new user based on provided params
