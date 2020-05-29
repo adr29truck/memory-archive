@@ -81,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isMobile == false) {
 
       $('.slides > li > img').each(function (el) {
-        console.log(el)
         if (el.backgroundImage == 'url(/img/hero_festival-min.jpg)') {
           el.src = 'url(/img/hero_festival.jpg)'
         } else if (el.backgroundImage == 'url(/img/hero_sunset-min.jpg)') {
