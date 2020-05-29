@@ -18,24 +18,31 @@ class User < ApplicationController
     User.new(params)
   end
 
+  # Gives user admin acces
   def make_admin
     self.admin = 1
   end
 
+  # Removes users admin acces
   def remove_admin
     self.admin = 0
   end
 
+  # Compares if passwords match the one on record
   def ==(other)
     BCrypt::Password.new(encrypted_password) == other.password
   rescue StandardError
     false
   end
 
+  # Sets a new password of a user
   def new_password(new_pass)
     self.encrypted_password = BCrypt::Password.create(new_pass)
   end
 
+  # Initiates password reset for a user
+  #
+  # Returns reset_password identifier
   def reset_password
     ResetPassword.reset(user_id: id)
   end

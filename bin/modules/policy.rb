@@ -2,7 +2,7 @@
 
 require_relative 'application_controller'
 
-# Handles user specific methods
+# Handles policy specific methods
 class Policy < ApplicationController
   set_columns :id, :title, :body
   set_table :policy
