@@ -236,15 +236,41 @@ class Server < Sinatra::Base
 
   post '/group/invite/new' do
     begin
-      group = @groups.map { |e| e if e.id == @class_id }.first
+      group = @groups.select { |e| e if e.id == @class_id }.first
 
-      body = "You have been invited to #{group.name}" \
-             'To join register an account if you do not already have one and then use the link below' \
-             " #{ENV['URL']}/group/join?identifier=#{group.identifier}"
-      non_html = body
+      non_html = "You have been invited to #{group.name}" \
+                 'To join register an account if you do not already have one and then use the link below' \
+                 " #{ENV['URL']}/group/join?identifier=#{group.identifier}"
+      body = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+        <html xmlns='http://www.w3.org/1999/xhtml'>
+        <head>
+          <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+          <title>Memmory Archive</title>
+          <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+          </head>
+          <body style='width: 100%;'>
+          <div style='width: 100%; height: 10vh; max-height: 100px; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
+          </div>
+            <div>
+              <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
+                <h1 style='text-align: center; width: 100%;'>Memmory Archive </h1>
+                <div style='height: 30px;'></div>
+                <h2 style='text-align: center; width: 100%;'>Group Invite</h2>
+                <h3 style='text-align: center;'>You have been invited to #{group.name}.</h3>
+                <p style='text-align: center;'>To join register an account if you do not already have one by visiting <a href='#{ENV['URL']}/register' style='font-weight: bold;'>Memory Archive</a>. Then use <a href='#{ENV['URL']}/group/join?identifier=#{group.identifier}'>This link</a> or the code below to join.</p>
+                <div class='group_code' style='margin:auto auto; padding:1em 20px'>
+                  <h2 style='width: 100%; text-align: center;'> Group code</h2>
+                  <h2 class='subtilte' style='background: lightgrey; padding: 4px; text-align: center;'> #{group.identifier}</h2>
+                </div>
+              </div>
+              <footer style='width: 100%; padding: 0.5em;'>
+                  <p style='width: 100%; text-align: center;'>If you do not want to join you can ignore this email.</p>
+              </footer>
+            </div>
+          </body>
+        </html>"
 
       params['email'].split(',').each do |email|
-        p email
         Pony.mail(
           to: email,
           subject: 'Group Invite',
@@ -257,7 +283,7 @@ class Server < Sinatra::Base
             enable_starttls_auto: true,
             user_name: 'bobbisbyggaren@gmail.com',
             password: ENV['SMTP_PASSWORD'],
-            authentication: :plain, # :plain, :login, :cram_md5, no auth by default
+            authentication: :plain,
             domain: 'localhost.localdomain'
             # The HELO domain provided by the client to the server
           }
