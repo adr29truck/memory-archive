@@ -382,6 +382,21 @@ class Server < Sinatra::Base
     end
   end
 
+  get '/cookie_policy' do
+    @policy = Policy.cookie_policy
+    slim :policy
+  end
+  
+  get '/terms_and_conditions' do
+    @policy = Policy.terms_and_conditions
+    slim :policy
+  end
+  
+  get '/privacy_policy' do 
+    @policy = Policy.privacy_policy
+    slim :policy
+  end
+
   post '/cookie_deny' do
     session[:cookies] = false
     redirect back
