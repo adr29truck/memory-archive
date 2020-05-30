@@ -121,3 +121,5 @@ function hideAlert(el) {
   $(el).parent().parent()[0].outerHTML = ''
 }
 
+$('#textarea1').val('New Text');
+  M.textareaAutoResize($('#textarea1'));

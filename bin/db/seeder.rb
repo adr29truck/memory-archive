@@ -13,6 +13,7 @@ def reset_database!
   DB.drop_table? :reset_password
   DB.drop_table? :images
   DB.drop_table? :classes
+  DB.drop_table? :faq
 
   DB.create_table! :user do
     Integer :id, primary_key: true
@@ -59,6 +60,12 @@ def reset_database!
   DB.create_table! :reset_password do
     Integer :user_id, unique: true
     String :identifier, unique: true
+  end
+
+  DB.create_table! :faq do
+    Integer :id, primary_key: true, unique: true, auto_increment: true
+    Text :question, null: false
+    Text :answer, null: true
   end
 
   puts 'Seeder run'

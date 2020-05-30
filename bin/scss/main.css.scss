@@ -10,18 +10,29 @@
 
 .form-body{
     height: 100%;
-    width: 100%;
-    // background-color: black;
+    width: 95%;
+    background-color: white;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .form{
-    background-color: #fff;
+    // background-color: #fff;
     padding: 20px;
-    width: 90%;
-    border-radius: 5px;
+    width: 100%;
+    // border-radius: 5px;
+}
+
+.container-body{
+  height: 100%;
+  width: 100%;
+  // background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media only screen and (min-width: 1024px) {
@@ -380,11 +391,13 @@ figure {
 .faq{
   background-color: #fff;
   padding: 20px;
-  width: 90%;
+  width: 95%;
   border-radius: 5px;
 }
 
-.collapsible{
-  border-radius: 5px;
-
+.question-buttons{
+  width: 70%;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
