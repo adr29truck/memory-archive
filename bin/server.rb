@@ -556,6 +556,7 @@ class Server < Sinatra::Base
     Classes.where(id: ids)
 
     slim :group_manage
+  end
   get '/cookie_policy' do
     @policy = Policy.cookie_policy
     slim :policy
