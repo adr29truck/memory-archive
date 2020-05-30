@@ -30,9 +30,11 @@ class User < ApplicationController
 
   # Compares if passwords match the one on record
   def ==(other)
-    BCrypt::Password.new(encrypted_password) == other.password
-  rescue StandardError
-    false
+    begin
+      BCrypt::Password.new(encrypted_password) == other.password
+    rescue StandardError
+      false
+    end
   end
 
   # Sets a new password of a user
