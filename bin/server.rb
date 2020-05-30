@@ -272,7 +272,7 @@ class Server < Sinatra::Base
           <html xmlns='http://www.w3.org/1999/xhtml'>
           <head>
             <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-            <title>Memmory Archive</title>
+            <title>Memory Archive</title>
             <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
             </head>
             <body style='width: 100%;'>
@@ -280,7 +280,7 @@ class Server < Sinatra::Base
             </div>
               <div>
                 <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
-                  <h1 style='text-align: center; width: 100%;'>Memmory Archive </h1>
+                  <h1 style='text-align: center; width: 100%;'>Memory Archive </h1>
                   <div style='height: 30px;'></div>
                   <h2 style='text-align: center; width: 100%;'>Group Invite</h2>
                   <h3 style='text-align: center;'>You have been invited to #{group.name}</h3>
