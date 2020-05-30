@@ -99,7 +99,6 @@ class Server < Sinatra::Base
       begin
         session[:class_id] = UserClass.fetch.where(user_id: x.id).all.objectify('UserClass').first.class_id
       rescue StandardError
-        session[:error_message] = 'No groups.'
       end
     else
       session[:error_severity] = 'info'
