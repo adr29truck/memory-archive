@@ -421,12 +421,6 @@ class Server < Sinatra::Base
     slim :'admin/admin'
   end
 
-  get '/admin/faq/?' do
-    @all_questions = Faq.fetch_all.objectify('Faq')
-    # p @all_questions
-    slim :'admin/admin_faq'
-  end
-
   post '/admin/faq/save-question' do
     if params.include?('id')
       params['id'] = params['id'].to_i
@@ -436,7 +430,7 @@ class Server < Sinatra::Base
     p new_question
     new_question.save
 
-    redirect '/admin/faq'
+    redirect '/faq'
   end
 
   post '/admin/faq/delete' do
@@ -446,7 +440,6 @@ class Server < Sinatra::Base
 
   get '/admin/faq/:id/edit/?' do
     @question = Faq.fetch.where(id: params['id']).first.objectify('Faq')
-    p @question
     slim :'admin/admin_faq_edit'
   end
 
@@ -455,39 +448,58 @@ class Server < Sinatra::Base
   ##############
 
   get '/post/create' do
-    slim :create_post
+    if !@logged_in.nil? && !@class_id.nil?
+      slim :create_post
+    else
+      redirect '/'
+    end
   end
 
   post '/post/create' do
-    begin
-      file = params['file']
-      tempfile = file[:tempfile]
-      filename = file[:filename]
+    if !@logged_in.nil? && !@class_id.nil?
+      begin
+        file = params['file']
+        tempfile = file[:tempfile]
+        filename = file[:filename]
 
-      path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
-      File.open('./bin/public/files/' + path, 'wb') do |f|
-        f.write(tempfile.read)
+        path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
+        File.open('./bin/public/files/' + path, 'wb') do |f|
+          f.write(tempfile.read)
+        end
+
+        x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
+        x.save
+      rescue StandardError
+        session[:error_message] = 'Something went wrong. Try again.'
+        redirect '/post/create'
       end
-
-      x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
-      x.save
-    rescue
-      session[:error_message] = 'Something went wrong. Try again.'
-      redirect '/post/create'
+      redirect "/post/#{x.id}"
+    else
+      session[:error_message] = 'Insufficient privilege'
+      redirect '/'
     end
-    redirect "/post/#{x.id}"
   end
 
   get '/group/join/?' do
-    @identifier = params['identifier']
-    slim :join_group
+    if !@logged_in.nil?
+      @identifier = params['identifier']
+      if !@identifier.nil?
+        @group = Classes.fetch.where(identifier: params['identifier']).all.objectify('Classes')
+      else
+        @group = nil
+      end
+      slim :join_group
+    else
+      session[:error_message] = 'Not signed in'
+      redirect '/'
+    end
   end
 
   post '/group/join' do
     if @logged_in.is_a? Integer
       begin
         id = Classes.where(identifier: params['identifier']).first.objectify('Classes').id
-      rescue
+      rescue StandardError
         session[:error_message] = 'Invalid group code'
         redirect back
       end
@@ -502,8 +514,10 @@ class Server < Sinatra::Base
       begin
         z = UserClass.new(user_id: @logged_in, class_id: id, admin: 0)
         z.save
+        session[:error_message] = 'Successfully joined group'
+        session[:error_severity] = 'valid'
         redirect "/?group_id=#{id}"
-      rescue
+      rescue StandardError
         session[:error_message] = 'Invalid group code'
         redirect back
       end
@@ -515,35 +529,45 @@ class Server < Sinatra::Base
   end
 
   get '/group/create/?' do
-    slim :create_group
+    if !@logged_in.nil?
+      slim :create_group
+    else
+      session[:error_message] = 'Not signed in'
+      redirect '/'
+    end
   end
 
   post '/group/create' do
-    begin
-      file = params['file']
-      tempfile = file[:tempfile]
-      filename = file[:filename]
+    if !@logged_in.nil?
+      begin
+        file = params['file']
+        tempfile = file[:tempfile]
+        filename = file[:filename]
 
-      path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
-      File.open('./bin/public/files/' + path, 'wb') do |f|
-        f.write(tempfile.read)
+        path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
+        File.open('./bin/public/files/' + path, 'wb') do |f|
+          f.write(tempfile.read)
+        end
+        params.delete :file
+
+        params[:img_path] = path
+      rescue StandardError
+        params[:img_path] = 'default_img.png'
       end
-      params.delete :file
 
-      params[:img_path] = path
-    rescue StandardError
-      params[:img_path] = 'default_img.png'
+      params[:identifier] = SecureRandom.uuid
+      x = Classes.new(params)
+      x.save
+
+      z = UserClass.new(user_id: @logged_in, class_id: x.id, admin: 1)
+      z.save
+
+      session[:class_id] = x.id
+      redirect '/'
+    else
+      session[:error_message] = 'Not signed in'
+      redirect '/'
     end
-
-    params[:identifier] = SecureRandom.uuid
-    x = Classes.new(params)
-    x.save
-
-    z = UserClass.new(user_id: @logged_in, class_id: x.id, admin: 1)
-    z.save
-
-    session[:class_id] = x.id
-    redirect "/group/users?=#{x.id}"
   end
 
   # TODO:
@@ -557,6 +581,12 @@ class Server < Sinatra::Base
 
     slim :group_manage
   end
+
+  get '/faq/?' do
+    @all_questions = Faq.fetch_all.objectify('Faq')
+    slim :faq
+  end
+
   get '/cookie_policy' do
     @policy = Policy.cookie_policy
     slim :policy
@@ -585,12 +615,4 @@ class Server < Sinatra::Base
   not_found do
     slim :not_found
   end
-
-  get '/faq/?' do
-    @all_questions = Faq.fetch_all.objectify('Faq')
-    
-    slim :faq
-  end
-
-  
 end
