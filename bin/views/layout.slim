@@ -102,45 +102,10 @@ html lang="en"
               - else
                 a.button.is-light href="/logout"
                   | Sign out
-    / - if !@cookies_allowed
-      .cookies
-        iframe#dummyframe name="dummyframe" style=("display: none;") 
-        .modal#cookie
-          .modal-background
-          .modal-card
-            header.modal-card-head
-              p.modal-card-title Kakor
-            section.modal-card-body
-              | Denna sidan kräver användning av kakor för att fungera som tänkt. 
-              br 
-              | Genom att klicka på Godkänn går du med på att kakor placeras på din enhet i syftet att webbplatsen ska fungera som tänkt. 
-              br
-              br
-              | Kakorna används för att visa dynamisk information och visa meddelanden som berör dig som användare. Kakorn används även för att identifera din användare under tiden du är inloggad. 
-              br
-              br
-              b Vad för typer av kakor använder vi oss av?
-              br
-              | Våra egna kakor. Dessa är kakor som skickas till din terminal från en dator eller domän som hanteras av oss (och från vilken den service du begär tillhandahålls). Vi har till exempel definierat och äger vissa kakor som används för att köra vissa funktioner i våra produkter och tjänster eller användartestexperiment, samt att spåra besökarinformation.
-              br
-              br
-              | Kakan: rack.session  Används för att identifiera den nuvarande sessionen, och är nödvändig för att webbplatsen ska kunna visas.
-              br
-              br
-              b Neka användningen av kakor
-              br
-              | För att neka ytterligare kakor kan du klicka på neka. För att helt och hållet undvika kakor kan du använda dig av din webbläsares inställningar för att neka användningen av kakor. 
-              b NOTERA
-              |  att webbplatsen kanske inte fungerar som tänkt.
-            footer.modal-card-foot
-              form action="/cookie_allow" method="post"
-                button.button.is-success type="submit" Godkänn
-              form action="/cookie_deny" method="post" target="dummyframe"
-                button.button type="reset" onclick="hideModal()" Neka 
     .wrapper
       ==slim :partial_flash
       ==yield
     - if @first_time
       .banner
-        p This page utilizes cookies in order to function properly. By continuing to use this page you agree to cookies being stored on your device in order for the site to function properly.
+        p By closing this message, you consent to Memory Archive's use of cookies on this device in accordance with our <a href="/terms_and_conditions">Terms and Conditions</a> and <a href="/privacy_policy">Privacy Policy</a>, unless you have already disabled cookies in your browser settings.
         a.delete onclick="removeBanner(this)"
