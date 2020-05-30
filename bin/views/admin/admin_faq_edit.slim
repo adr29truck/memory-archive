@@ -1,0 +1,16 @@
+.container-body
+  .form-body
+    .form
+      h3.subtitle Edit question
+      form method="post" action="/admin/faq/save-question"
+        input type="hidden" name="id" value="#{@question.id}"
+        .input-field
+          textarea.materialize-textarea name="question" id="textarea1" = "#{@question.question}"
+          label for="question" Question
+        .input-field
+          textarea.materialize-textarea name="answer" id="textarea1" = "#{@question.answer}"
+          label for="answer" Answer
+        .question-buttons
+          button.button.is-primary type="submit" Save
+          a href="/admin/faq"
+            button.button.waves-effect.is-danger Cancel

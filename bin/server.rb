@@ -36,6 +36,10 @@ class Server < Sinatra::Base
     SassCompiler.compile
   end
 
+  #########
+  # Index #
+  #########
+
   get '/' do
     @path = '/'
 
@@ -71,42 +75,13 @@ class Server < Sinatra::Base
     slim :index
   end
 
+  ####################
+  # Login & register #
+  ####################
+
   get '/login/?' do
     session[:reverse] = back
     slim :login
-  end
-
-  get '/post/create' do
-    if !@logged_in.nil? && !@class_id.nil?
-      slim :create_post
-    else
-      redirect '/'
-    end
-  end
-
-  post '/post/create' do
-    if !@logged_in.nil? && !@class_id.nil?
-      begin
-        file = params['file']
-        tempfile = file[:tempfile]
-        filename = file[:filename]
-
-        path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
-        File.open('./bin/public/files/' + path, 'wb') do |f|
-          f.write(tempfile.read)
-        end
-
-        x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
-        x.save
-      rescue StandardError
-        session[:error_message] = 'Something went wrong. Try again.'
-        redirect '/post/create'
-      end
-      redirect "/post/#{x.id}"
-    else
-      session[:error_message] = 'Insufficient privilege'
-      redirect '/'
-    end
   end
 
   post '/login' do
@@ -369,7 +344,7 @@ class Server < Sinatra::Base
     redirect '/login'
   end
 
-  get '/reset_password' do
+  get '/reset_password/?' do
     slim :password_reset
   end
 
@@ -438,6 +413,150 @@ class Server < Sinatra::Base
     end
   end
 
+  ###############
+  # Admin pages #
+  ###############
+
+  get '/admin/?' do
+    slim :'admin/admin'
+  end
+
+  get '/admin/faq/?' do
+    @all_questions = Faq.fetch_all.objectify('Faq')
+    # p @all_questions
+    slim :'admin/admin_faq'
+  end
+
+  post '/admin/faq/save-question' do
+    if params.include?('id')
+      params['id'] = params['id'].to_i
+    end
+    new_question = Faq.new(params)
+    p 'new_question'
+    p new_question
+    new_question.save
+
+    redirect '/admin/faq'
+  end
+
+  post '/admin/faq/delete' do
+    Faq.fetch.where(id: params['question_id']).delete
+    redirect back
+  end
+
+  get '/admin/faq/:id/edit/?' do
+    @question = Faq.fetch.where(id: params['id']).first.objectify('Faq')
+    p @question
+    slim :'admin/admin_faq_edit'
+  end
+
+  ##############
+  # User pages #
+  ##############
+
+  get '/post/create' do
+    slim :create_post
+  end
+
+  post '/post/create' do
+    begin
+      file = params['file']
+      tempfile = file[:tempfile]
+      filename = file[:filename]
+
+      path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
+      File.open('./bin/public/files/' + path, 'wb') do |f|
+        f.write(tempfile.read)
+      end
+
+      x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
+      x.save
+    rescue
+      session[:error_message] = 'Something went wrong. Try again.'
+      redirect '/post/create'
+    end
+    redirect "/post/#{x.id}"
+  end
+
+  get '/group/join/?' do
+    @identifier = params['identifier']
+    slim :join_group
+  end
+
+  post '/group/join' do
+    if @logged_in.is_a? Integer
+      begin
+        id = Classes.where(identifier: params['identifier']).first.objectify('Classes').id
+      rescue
+        session[:error_message] = 'Invalid group code'
+        redirect back
+      end
+
+      @groups.each do |group|
+        if group.class_id == id
+          session[:error_message] = 'Already in group'
+          redirect "/?group_id=#{id}"
+        end
+      end
+
+      begin
+        z = UserClass.new(user_id: @logged_in, class_id: id, admin: 0)
+        z.save
+        redirect "/?group_id=#{id}"
+      rescue
+        session[:error_message] = 'Invalid group code'
+        redirect back
+      end
+
+    else
+      session[:error_message] = 'Not signed in'
+      redirect '/'
+    end
+  end
+
+  get '/group/create/?' do
+    slim :create_group
+  end
+
+  post '/group/create' do
+    begin
+      file = params['file']
+      tempfile = file[:tempfile]
+      filename = file[:filename]
+
+      path = (SecureRandom.uuid + '.' + filename.split('.').last).to_s
+      File.open('./bin/public/files/' + path, 'wb') do |f|
+        f.write(tempfile.read)
+      end
+      params.delete :file
+
+      params[:img_path] = path
+    rescue StandardError
+      params[:img_path] = 'default_img.png'
+    end
+
+    params[:identifier] = SecureRandom.uuid
+    x = Classes.new(params)
+    x.save
+
+    z = UserClass.new(user_id: @logged_in, class_id: x.id, admin: 1)
+    z.save
+
+    session[:class_id] = x.id
+    redirect "/group/users?=#{x.id}"
+  end
+
+  # TODO:
+  get '/manage_group/?' do
+    ids = []
+    @groups.each do |ent|
+      ids << ent.group_id
+    end
+
+    Classes.where(id: ids)
+
+    slim :group_manage
+  end
   get '/cookie_policy' do
     @policy = Policy.cookie_policy
     slim :policy
@@ -468,6 +587,10 @@ class Server < Sinatra::Base
   end
 
   get '/faq/?' do
+    @all_questions = Faq.fetch_all.objectify('Faq')
+    
     slim :faq
   end
+
+  
 end

@@ -84,7 +84,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span>, <span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>, <span class='object_link'><a href="Classes.html" title="Classes (class)">Classes</a></span>, <span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>, <span class='object_link'><a href="Policy.html" title="Policy (class)">Policy</a></span>, <span class='object_link'><a href="Post.html" title="Post (class)">Post</a></span>, <span class='object_link'><a href="ResetPassword.html" title="ResetPassword (class)">ResetPassword</a></span>, <span class='object_link'><a href="SassCompiler.html" title="SassCompiler (class)">SassCompiler</a></span>, <span class='object_link'><a href="Server.html" title="Server (class)">Server</a></span>, <span class='object_link'><a href="User.html" title="User (class)">User</a></span>, <span class='object_link'><a href="UserClass.html" title="UserClass (class)">UserClass</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span>, <span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>, <span class='object_link'><a href="Classes.html" title="Classes (class)">Classes</a></span>, <span class='object_link'><a href="Faq.html" title="Faq (class)">Faq</a></span>, <span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>, <span class='object_link'><a href="Policy.html" title="Policy (class)">Policy</a></span>, <span class='object_link'><a href="Post.html" title="Post (class)">Post</a></span>, <span class='object_link'><a href="ResetPassword.html" title="ResetPassword (class)">ResetPassword</a></span>, <span class='object_link'><a href="SassCompiler.html" title="SassCompiler (class)">SassCompiler</a></span>, <span class='object_link'><a href="Server.html" title="Server (class)">Server</a></span>, <span class='object_link'><a href="User.html" title="User (class)">User</a></span>, <span class='object_link'><a href="UserClass.html" title="UserClass (class)">UserClass</a></span>
     
   
 </p>
@@ -187,14 +187,6 @@
       <pre class="lines">
 
 
-75
-76
-77
-78
-79
-80
-81
-82
 83
 84
 85
@@ -297,10 +289,18 @@
 182
 183
 184
-185</pre>
+185
+186
+187
+188
+189
+190
+191
+192
+193</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/db/seeder.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'bin/db/seeder.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert_data'>insert_data</span>
   <span class='id identifier rubyid_dataset'>dataset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span>
@@ -498,7 +498,15 @@
 70
 71
 72
-73</pre>
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'bin/db/seeder.rb', line 8</span>
@@ -511,6 +519,7 @@
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:reset_password</span>
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:images</span>
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:classes</span>
+  <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:faq</span>
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:policy</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:user</span> <span class='kw'>do</span>
@@ -566,6 +575,13 @@
     <span class='const'>String</span> <span class='symbol'>:identifier</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 
+  <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:faq</span> <span class='kw'>do</span>
+    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>auto_increment:</span> <span class='kw'>true</span>
+    <span class='const'>Text</span> <span class='symbol'>:question</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
+    <span class='const'>Text</span> <span class='symbol'>:answer</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Seeder run</span><span class='tstring_end'>&#39;</span></span>
   <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Seeder ran</span><span class='tstring_end'>&#39;</span></span>
   <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Created tables</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
@@ -579,7 +595,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri May 29 15:23:13 2020 by
+  Generated on Sat May 30 10:39:31 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.6.6).
 </div>

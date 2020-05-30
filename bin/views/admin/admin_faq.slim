@@ -1,0 +1,51 @@
+.container-body
+  .faq
+    h1.title FAQ
+    -unless@all_questions.empty?
+      ul.collapsible
+        -@all_questions.each do |question|
+          li.collapse-item
+            .collapsible-header
+              i.material-icons help
+              h3.subtitle = question.question
+            .collapsible-body
+              .input-field
+                span = question.answer
+              .question-buttons
+                form method="post" action="/admin/faq/delete"
+                  input name="question_id" type="hidden" value="#{question.id}"
+                  button.button.waves-effect.is-danger type="submit" Delete
+                a href="/admin/faq/#{question.id}/edit"
+                  button.button.is-link.waves-effect Edit
+    -else
+      h3.title = ":("
+      h3.subtitle No questions yet
+      / li.collapse-item
+      /   .collapsible-header
+      /     i.material-icons help
+      /     h3.subtitle Test Question
+      /   .collapsible-body
+      /     span Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae optio itaque architecto, blanditiis tenetur repellendus totam dolorum tempora unde ab enim odio nesciunt magni non laborum veritatis atque, asperiores assumenda, recusandae cumque labore voluptates accusantium nostrum eaque. Error enim cum ratione hic fugit, esse perspiciatis minima ad voluptatum maxime velit.
+      / li.collapse-item
+      /   .collapsible-header
+      /     i.material-icons help
+      /     h3.subtitle Test Question
+      /   .collapsible-body
+      /     span Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae optio itaque architecto, blanditiis tenetur repellendus totam dolorum tempora unde ab enim odio nesciunt magni non laborum veritatis atque, asperiores assumenda, recusandae cumque labore voluptates accusantium nostrum eaque. Error enim cum ratione hic fugit, esse perspiciatis minima ad voluptatum maxime velit.
+      / li
+      /   .collapsible-header
+      /     i.material-icons help
+      /     h3.subtitle Test Question
+      /   .collapsible-body
+      /     span Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae optio itaque architecto, blanditiis tenetur repellendus totam dolorum tempora unde ab enim odio nesciunt magni non laborum veritatis atque, asperiores assumenda, recusandae cumque labore voluptates accusantium nostrum eaque. Error enim cum ratione hic fugit, esse perspiciatis minima ad voluptatum maxime velit.
+    .form-body
+      .form
+        h3.subtitle Add a new question
+        form method="post" action="/admin/faq/save-question"
+          .input-field
+            textarea.materialize-textarea name="question" id="textarea1"
+            label for="question" Question
+          .input-field
+            textarea.materialize-textarea name="answer" id="textarea1"
+            label for="answer" Answer
+          button.btn type="submit" Add
