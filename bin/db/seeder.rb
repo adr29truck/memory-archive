@@ -71,8 +71,8 @@ def reset_database!
 
   DB.create_table! :faq do
     Integer :id, primary_key: true, unique: true, auto_increment: true
-    Text :question, null: false
-    Text :answer, null: true
+    String :question, null: false
+    String :answer, null: true
   end
 
   puts 'Seeder run'
@@ -188,6 +188,10 @@ def insert_data
     </ul>
     <p>The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.</p>
     <p>As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.</p>}, id:3)
+
+    dataset = DB[:faq]
+    dataset.insert(question: 'How do you handle user data?', answer: 'Please see our <a href="/privacy_policy">Privacy Policy</a> and our <a href="/terms_and_conditions">Terms and Conditions</a> for information on how we store your data.<br><br>But in short we value your data a lot and do our outmost to protect it.')
+    dataset.insert(question: 'Do you use cookies?', answer: 'Yes.<br><br>Please read our <a href="/cookie_policy">Cookie Policy</a> for more details as to what we use cookies for.')
 
   puts 'Inserted data'
 end
