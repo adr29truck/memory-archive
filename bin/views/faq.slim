@@ -10,7 +10,7 @@
               h3.subtitle = question.question
             .collapsible-body
               .input-field
-                span = question.answer
+                p == question.answer
               - if @super_admin
                 .question-buttons
                   form method="post" action="/admin/faq/delete"

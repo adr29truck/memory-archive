@@ -425,9 +425,8 @@ class Server < Sinatra::Base
     if params.include?('id')
       params['id'] = params['id'].to_i
     end
+    params['answer'] = params['answer'].gsub(/\R+/, '<br><br>')
     new_question = Faq.new(params)
-    p 'new_question'
-    p new_question
     new_question.save
 
     redirect '/faq'
@@ -440,6 +439,7 @@ class Server < Sinatra::Base
 
   get '/admin/faq/:id/edit/?' do
     @question = Faq.fetch.where(id: params['id']).first.objectify('Faq')
+    @question.answer = @question.answer.gsub('<br>', "\r\n")
     slim :'admin/admin_faq_edit'
   end
 
