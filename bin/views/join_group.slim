@@ -1,15 +1,24 @@
 .form-body 
   .form
-    h1.title.is-3 Join a group
-    form action="/group/join" method="post"
-      .field
-        label.label Group Code
-        .input-field
-          i.material-icons.prefix lock
-          - if @identifier.nil?
-            input.input placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX" type="text" name="identifier" required="true"
-          - else
-            input.input placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX" value="#{@identifier}" type="text" name="identifier" required="true"
-      .field.is-grouped
-        .control
-          button.button.is-link type="submit" Join
+    - if !@group.nil? && @group != []
+      h2 You have been invited to
+      h3.subtitle.is-4 style="margin-top: 10px;" #{@group.first.name}
+      form action="/group/join" method="post"
+        input.input placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX" value="#{@identifier}" type="text" name="identifier" required="true" style="display: none;"
+        .field.is-grouped style="margin-top: 30px;"
+          .control
+            button.button.is-link type="submit" Join
+    - else
+      h1.title.is-3 Join a group
+      form action="/group/join" method="post"
+        .field
+          label.label Group Code
+          .input-field
+            i.material-icons.prefix lock
+            - if @identifier.nil?
+              input.input placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX" type="text" name="identifier" required="true"
+            - else
+              input.input placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX" value="#{@identifier}" type="text" name="identifier" required="true"
+        .field.is-grouped
+          .control
+            button.button.is-link type="submit" Join

@@ -12,6 +12,10 @@ class ApplicationController
   DB = Sequel.sqlite('./bin/db/data.db') # TODO: sqlit3, postgresql or other
 
   # Initializes a new instance of an object and sets provided data
+  #
+  # Params - Hash
+  #
+  # Returns instance of class with instance_variables set according to params
   def initialize(params)
     raise 'No data provided' unless params.is_a? Hash
 
@@ -74,6 +78,11 @@ class ApplicationController
     dataset.where(conditions)
   end
 
+  # Initializes Sequel instance for provided table
+  #
+  # table - String (Optional table)
+  #
+  # Returns Sequel instance based on class table
   def self.fetch(table = nil)
     dataset = if !table.nil?
                 DB[:"#{table}"]
@@ -84,6 +93,11 @@ class ApplicationController
               end
   end
 
+  # Returns all elements from database table
+  #
+  # table - String (Optional table)
+  #
+  # Returns Array of elements from database
   def self.fetch_all(table = nil)
     dataset = if !table.nil?
                 DB[:"#{table}"]
@@ -95,7 +109,7 @@ class ApplicationController
     dataset.all
   end
 
-  # Saves a object to the database
+  # Saves a instance to the database
   #
   # table - String (Optional table)
   #
@@ -110,7 +124,7 @@ class ApplicationController
               elsif !self.class.table.nil?
                 DB[:"#{self.class.table}"]
               else
-                DB[:"#{self.to_s.downcase}"]
+                DB[:"#{self.class.to_s.downcase}"]
               end
 
     if instance_variables.include?(:@id) && id.is_a?(Integer)

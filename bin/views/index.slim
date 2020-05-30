@@ -26,17 +26,21 @@ section.hero.is-info.is-large.no-gap style="#{(@logged_in.nil? ? 'height: calc(1
   - else
     .hero-body
       .container
-        h1.title Time to archive your memmories
+        h1.title Time to archive your memories
         h2.subtitle Join or create a group by using the menu above
 
 - if !@logged_in.nil?
   section
-    - if @admin
-      - if @first_time
-        a.btn-floating.btn-large.waves-effect.waves-light.red.fixed-button.pulse
+    - if @admin && !@groups.nil?
+      - if @first_visit
+        a.btn-floating.btn-large.waves-effect.waves-light.red.fixed-button#add onclick="modalToggle();"
           i.material-icons person_add
+        javascript:
+          $(document).ready(function(){
+            $('.tap-target').tapTarget('open');
+          });
       - else
-        a.btn-floating.btn-large.waves-effect.waves-light.red.fixed-button
+        a.btn-floating.btn-large.waves-effect.waves-light.red.fixed-button#add onclick="modalToggle()"
           i.material-icons person_add
     #columns.article-feed
       - if !@posts.nil?
@@ -74,3 +78,24 @@ section.hero.is-info.is-large.no-gap style="#{(@logged_in.nil? ? 'height: calc(1
               .circle
 
         p.infinite-scroll-last.container.is-widescreen No more content
+  - if @admin
+    #modal1.modal
+      a.delete onclick="hideModal(this)"
+      .form-body
+        .form
+          h1.title.is-3 Invite new members
+          form method="post" action="/group/invite/new"
+            .field
+              label.label Email(s)
+              .control
+                textarea.textarea placeholder="Email(s)" type="text" name="email"
+              p.help Separate each email using ,
+            .field.is-grouped
+              .control
+                button.button.is-link type="submit" Invite
+      .group_code
+        h1.title.is-4 Group code:
+        h2.subtilte style="background: lightgrey; padding: 4px; text-align: center;" #{@groups.select{ |e| e if e.id.to_i == @class_id.to_i}.first.identifier}
+    .tap-target data-target="add" 
+      .tap-target-content
+        p Use this button to invite new users to your group.

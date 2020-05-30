@@ -43,7 +43,9 @@ html lang="en"
           if (!!window.chrome == false || !!window.chrome == undefined){
             x.innerHTML += '<br><br>Try using the Chrome Browser.'
           }
+          if (document.querySelector('.loader-page') != null){
           document.querySelector('.loader-page').append(x)
+          }
         }, 5000)
     nav.navbar.is-fixed-top aria-label=("main navigation") role="navigation" 
       .navbar-brand
@@ -100,7 +102,6 @@ html lang="en"
               - else
                 a.button.is-light href="/logout"
                   | Sign out
-
     / - if !@cookies_allowed
       .cookies
         iframe#dummyframe name="dummyframe" style=("display: none;") 
@@ -139,3 +140,7 @@ html lang="en"
     .wrapper
       ==slim :partial_flash
       ==yield
+    - if @first_time
+      .banner
+        p This page utilizes cookies in order to function properly. By continuing to use this page you agree to cookies being stored on your device in order for the site to function properly.
+        a.delete onclick="removeBanner(this)"
