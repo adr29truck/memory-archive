@@ -95,6 +95,7 @@ class Server < Sinatra::Base
     x = x.first.objectify('User')
     if x == user
       session[:user_id] = x.id
+      session[:user_name] = x.name
       session[:super_admin] = x.admin == 1
       begin
         session[:class_id] = UserClass.fetch.where(user_id: x.id).all.objectify('UserClass').first.class_id

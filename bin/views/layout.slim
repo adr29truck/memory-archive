@@ -102,6 +102,7 @@ html lang="en"
               - else
                 a.button.is-light href="/logout"
                   | Sign out
+                p.subtitle.is-6.button disabled="" style="border: 0;" = session[:user_name]
     .wrapper
       ==slim :partial_flash
       ==yield
