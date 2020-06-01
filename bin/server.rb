@@ -587,6 +587,60 @@ class Server < Sinatra::Base
     slim :faq
   end
 
+  post '/faq/mail-question' do
+    body = "
+    <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+      <html xmlns='http://www.w3.org/1999/xhtml'>
+      <head>
+        <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+        <title>Memmory Archive</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+        </head>
+        <body style='width: 100%;'>
+        <div style='width: 100%; height: 10vh; max-height: 100px; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
+        </div>
+          <div>
+            <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
+              <h1 style='text-align: center; width: 100%;'>Memmory Archive Admin</h1>
+              <div style='height: 30px;'></div>
+              <h2 style='text-align: center; width: 100%;'>Question by Email</h2>
+              <p style='text-align: center;'>Someone emailed a question<p>
+              <p style='text-align: center;'>Return address: #{params['email']}</p>
+            </div>
+          </div>
+        </body>
+      </html>"
+    non_html = "#{params['question']}"
+    
+    begin
+      Pony.mail(
+        to: "le@ekstener.se",
+        subject: 'Custom question',
+        html_body: body,
+        body: non_html,
+        # attachments: {image: image},
+        via: :smtp,
+        via_options: {
+          address: 'smtp.gmail.com',
+          port: '587',
+          enable_starttls_auto: true,
+          user_name: 'bobbisbyggaren@gmail.com',
+          password: ENV['SMTP_PASSWORD'],
+          authentication: :plain, # :plain, :login, :cram_md5, no auth by default
+          domain: 'localhost.localdomain'
+          # The HELO domain provided by the client to the server
+        }
+      )
+      session[:error_message] = 'An email with your question has been sent to us and we will try to get back to you as fast as possible'
+      session[:error_severity] = 'valid'
+    rescue StandardError
+      session[:error] = 'Something went wrong. Try again'
+      session[:error_severity] = 'danger'
+    ensure
+      redirect back
+    end
+  end
+
   get '/cookie_policy' do
     @policy = Policy.cookie_policy
     slim :policy

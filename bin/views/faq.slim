@@ -33,3 +33,24 @@
               textarea.materialize-textarea name="answer" id="textarea1"
               label for="answer" Answer
             button.btn type="submit" Add
+.container-body style="margin-top: 20px;"
+  .form-body
+    .form
+      h3.subtitle Can't find the right question?
+      p.subtitle.is-6 Email your question to us here and we will try to answer as best as we can :)
+      form action="/faq/mail-question" method="post"
+        .field
+          label.label Your Email
+          .input-field
+            i.material-icons.prefix email
+            input.input placeholder="Email" type="email" name="email" required="true"
+            p.subtitle.is-6 Where shall we send the answer?
+        .field
+          label.label Your Question
+          .input-field
+            textarea.materialize-textarea name="question" id="textarea1" required=""
+            label for="question" Question
+            
+        .field.is-grouped
+          .control
+            button.button.is-link type="submit" Submit
