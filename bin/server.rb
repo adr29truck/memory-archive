@@ -515,13 +515,14 @@ class Server < Sinatra::Base
               <div style='height: 30px;'></div>
               <h2 style='text-align: center; width: 100%;'>Question by Email</h2>
               <p style='text-align: center;'>Someone emailed a question<p>
+              <p style='text-align: center;'>#{params['question']}</p>
               <p style='text-align: center;'>Return address: #{params['email']}</p>
             </div>
           </div>
         </body>
       </html>"
-    non_html = "#{params['question']}"
-    
+    non_html = "Someone asked the following question:\n #{params['question']}\n\nWith the email #{params['email']}"
+
     begin
       Pony.mail(
         to: ENV['TARGET_EMAIL'],
