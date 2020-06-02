@@ -34,10 +34,10 @@
               label for="answer" Answer
             button.btn type="submit" Add
 .container-body style="margin-top: 20px;"
-  .form-body
+  .form-body.submit
     .form
-      h3.subtitle Can't find the right question?
-      p.subtitle.is-6 Email your question to us here and we will try to answer as best as we can :)
+      h3.subtitle Can't find the the answer you where looking for?
+      p.subtitle.is-6 Send us your question and we will try to answer as soon as possible.
       form action="/faq/mail-question" method="post"
         .field
           label.label Your Email
@@ -48,8 +48,7 @@
         .field
           label.label Your Question
           .input-field
-            textarea.materialize-textarea name="question" id="textarea1" required=""
-            label for="question" Question
+            textarea.materialize-textarea name="question" id="textarea1" required="" placeholder="Question"
             
         .field.is-grouped
           .control

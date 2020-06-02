@@ -47,6 +47,17 @@
     max-width: 50vw !important;
     padding: 50px;
   }
+
+  .submit {
+    width: 90%;
+    height: initial;
+    .form {
+      width: 100%;
+      max-width: 100% !important;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+  }
 }
 
 .modal {
