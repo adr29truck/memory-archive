@@ -216,17 +216,6 @@ class Server < Sinatra::Base
     end
   end
 
-  # TODO:
-  get '/manage_group' do
-    ids = []
-    @groups.each do |ent|
-      ids << ent.group_id
-    end
-
-    Classes.where(id: ids)
-
-    slim :group_manage
-  end
 
   get '/new_password' do
     @identifier = params['identifier']
@@ -328,29 +317,53 @@ class Server < Sinatra::Base
   ###############
 
   get '/admin/?' do
-    slim :'admin/admin'
+    if @super_admin
+      slim :'admin/admin'
+    else
+      session[:error_message] = 'Insufficient privilege'
+      redirect back unless back.include?('admin')
+      redirect '/'
+    end
   end
 
   post '/admin/faq/save-question' do
-    if params.include?('id')
-      params['id'] = params['id'].to_i
-    end
-    params['answer'] = params['answer'].gsub(/\R+/, '<br><br>')
-    new_question = Faq.new(params)
-    new_question.save
+    if @super_admin
+      if params.include?('id')
+        params['id'] = params['id'].to_i
+      end
+      params['answer'] = params['answer'].gsub(/\R+/, '<br><br>')
+      new_question = Faq.new(params)
+      new_question.save
 
-    redirect '/faq'
+      redirect '/faq'
+    else
+      session[:error_message] = 'Insufficient privilege'
+      redirect back unless back.include?('admin')
+      redirect '/'
+    end
   end
 
   post '/admin/faq/delete' do
-    Faq.fetch.where(id: params['question_id']).delete
-    redirect back
+    if @super_admin
+      Faq.fetch.where(id: params['question_id']).delete
+      redirect back
+    else
+      session[:error_message] = 'Insufficient privilege'
+      redirect back unless back.include?('admin')
+      redirect '/'
+    end
   end
 
   get '/admin/faq/:id/edit/?' do
-    @question = Faq.fetch.where(id: params['id']).first.objectify('Faq')
-    @question.answer = @question.answer.gsub('<br>', "\r\n")
-    slim :'admin/admin_faq_edit'
+    if @super_admin
+      @question = Faq.fetch.where(id: params['id']).first.objectify('Faq')
+      @question.answer = @question.answer.gsub('<br>', "\r\n")
+      slim :'admin/admin_faq_edit'
+    else
+      session[:error_message] = 'Insufficient privilege'
+      redirect back unless back.include?('admin')
+      redirect '/'
+    end
   end
 
   ##############
@@ -481,16 +494,16 @@ class Server < Sinatra::Base
   end
 
   # TODO:
-  get '/manage_group/?' do
-    ids = []
-    @groups.each do |ent|
-      ids << ent.group_id
-    end
+  # get '/manage_group/?' do
+  #   ids = []
+  #   @groups.each do |ent|
+  #     ids << ent.group_id
+  #   end
 
-    Classes.where(id: ids)
+  #   Classes.where(id: ids)
 
-    slim :group_manage
-  end
+  #   slim :group_manage
+  # end
 
   get '/faq/?' do
     @all_questions = Faq.fetch_all.objectify('Faq')
@@ -556,12 +569,12 @@ class Server < Sinatra::Base
     @policy = Policy.cookie_policy
     slim :policy
   end
-  
+
   get '/terms_and_conditions' do
     @policy = Policy.terms_and_conditions
     slim :policy
   end
-  
+
   get '/privacy_policy' do 
     @policy = Policy.privacy_policy
     slim :policy
