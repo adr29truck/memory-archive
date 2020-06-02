@@ -524,7 +524,7 @@ class Server < Sinatra::Base
     
     begin
       Pony.mail(
-        to: "le@ekstener.se",
+        to: ENV['TARGET_EMAIL'],
         subject: 'Custom question',
         html_body: body,
         body: non_html,
