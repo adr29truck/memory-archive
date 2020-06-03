@@ -2,7 +2,7 @@
 
 require 'bundler'
 
-if ENV['RACK_ENV'] != 'dev'
+if ENV['RACK_ENV'] == 'production'
   Bundler.require(:default)
 else
   Bundler.require(:default, :development)

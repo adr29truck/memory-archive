@@ -9,7 +9,7 @@ class ApplicationController
   # Sequel::Model --> user
 
   # Configuration
-  if ENV['RACK_ENV'] != 'dev'
+  if ENV['RACK_ENV'] == 'production'
     DB = Sequel.connect(ENV['DATABASE_URL'])
   else
     DB = Sequel.sqlite('./bin/db/data.db') # TODO: sqlit3, postgresql or other

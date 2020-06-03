@@ -14,7 +14,7 @@ gem 'sequel'
 gem 'sinatra'
 gem 'slim'
 gem 'thin'
-gem 'wdm'
+# gem 'wdm'
 
 group :development do
   gem 'sqlite3'
