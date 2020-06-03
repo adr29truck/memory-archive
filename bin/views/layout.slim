@@ -110,3 +110,20 @@ html lang="en"
       .banner
         p By closing this message, you consent to Memory Archive's use of cookies on this device in accordance with our <a href="/terms_and_conditions">Terms and Conditions</a> and <a href="/privacy_policy">Privacy Policy</a>, unless you have already disabled cookies in your browser settings.
         a.delete onclick="removeBanner(this)"
+  javascript:
+    document.addEventListener('DOMContentLoaded', () => {
+      // Page is loaded
+      const objects = document.getElementsByClassName('asyncImage');
+      Array.from(objects).map((item) => {
+        // Start loading image
+        const img = new Image();
+        img.src = item.dataset.src;
+        // Once image is loaded replace the src of the HTML element
+        img.onload = () => {
+          item.classList.remove('asyncImage');
+          return item.nodeName === 'IMG' ? 
+            item.src = item.dataset.src :        
+            item.style.backgroundImage = `url(${item.dataset.src})`;
+        };
+      });
+    });
