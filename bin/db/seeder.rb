@@ -3,7 +3,11 @@
 require 'bcrypt'
 require 'sequel'
 
-DB = Sequel.sqlite('./bin/db/data.db')
+if ENV['state'] != 'dev'
+  DB = Sequel.connect(ENV['DATABASE_URL'])
+else
+  DB = Sequel.sqlite('./bin/db/data.db')
+end
 
 def reset_database!
   DB.drop_table? :user
@@ -11,7 +15,6 @@ def reset_database!
   DB.drop_table? :alert
   DB.drop_table? :post
   DB.drop_table? :reset_password
-  DB.drop_table? :images
   DB.drop_table? :classes
   DB.drop_table? :faq
   DB.drop_table? :policy
@@ -37,7 +40,7 @@ def reset_database!
   end
 
   DB.create_table! :classes do
-    Integer :id, primary_key: true, unique: true, auto_increment: true
+    Integer :id, primary_key: true, unique: true, serial: true
     String :name, null: false
     String :description
     String :identifier, null: false
@@ -45,7 +48,7 @@ def reset_database!
   end
 
   DB.create_table! :alert do
-    Integer :id, primary_key: true, unique: true, auto_increment: true
+    Integer :id, primary_key: true, unique: true, serial: true
     Integer :valid_until, null: true
     Integer :valid, null: true
     String :level, null: true
@@ -55,13 +58,14 @@ def reset_database!
   end
 
   DB.create_table! :post do
-    Integer :id, primary_key: true, unique: true, auto_increment: true
+    Integer :id, primary_key: true, unique: true, serial: true
     String :message, null: true
     Integer :author_id, null: false
     Integer :time_stamp, null: false
     String :img_path, null: false
     String :img_name, null: false
     Integer :class_id, null: false
+    File :file, null: true
   end
 
   DB.create_table! :reset_password do
@@ -70,7 +74,7 @@ def reset_database!
   end
 
   DB.create_table! :faq do
-    Integer :id, primary_key: true, unique: true, auto_increment: true
+    Integer :id, primary_key: true, unique: true, serial: true
     String :question, null: false
     String :answer, null: true
   end
@@ -82,10 +86,10 @@ end
 
 def insert_data
   dataset = DB[:user]
-  dataset.insert(name: 'John', email: 'john.example@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 1)
-  dataset.insert(name: 'David', email: 'david.ek@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 0)
-  dataset.insert(name: 'Gustav', email: 'gustav@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 0)
-  dataset.insert(name: 'Admin', email: 'admin@admin', encrypted_password: BCrypt::Password.create('admin'), admin: 1)
+  dataset.insert(id: 1, name: 'John', email: 'john.example@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 1)
+  dataset.insert(id: 2, name: 'David', email: 'david.ek@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 0)
+  dataset.insert(id: 3, name: 'Gustav', email: 'gustav@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 0)
+  dataset.insert(id: 4, name: 'Admin', email: 'admin@admin', encrypted_password: BCrypt::Password.create('admin'), admin: 1)
 
   dataset = DB[:policy]
   dataset.insert(title: 'Privacy Policy', body: '<p>We value your data and therefore we do our utmost to store it securely.<br>
