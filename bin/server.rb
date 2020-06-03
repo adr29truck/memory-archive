@@ -109,8 +109,8 @@ class Server < Sinatra::Base
     if session[:reverse].nil? || session[:reverse].include?('/login') || session[:reverse].include?('/new_password')
       redirect '/'
     end
-    temp = session[:reverse]
     session[:reverse] = nil
+    temp = session[:reverse]
     redirect temp
   end
 
