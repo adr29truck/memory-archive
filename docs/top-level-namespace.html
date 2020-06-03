@@ -187,10 +187,6 @@
       <pre class="lines">
 
 
-83
-84
-85
-86
 87
 88
 89
@@ -301,17 +297,21 @@
 194
 195
 196
-197</pre>
+197
+198
+199
+200
+201</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/db/seeder.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'bin/db/seeder.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert_data'>insert_data</span>
   <span class='id identifier rubyid_dataset'>dataset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>John</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>email:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>john.example@example.example</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>encrypted_password:</span> <span class='const'>BCrypt</span><span class='op'>::</span><span class='const'>Password</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>admin:</span> <span class='int'>1</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>David</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>email:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>david.ek@example.example</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>encrypted_password:</span> <span class='const'>BCrypt</span><span class='op'>::</span><span class='const'>Password</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>admin:</span> <span class='int'>0</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Gustav</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>email:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>gustav@example.example</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>encrypted_password:</span> <span class='const'>BCrypt</span><span class='op'>::</span><span class='const'>Password</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>admin:</span> <span class='int'>0</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Admin</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>email:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin@admin</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>encrypted_password:</span> <span class='const'>BCrypt</span><span class='op'>::</span><span class='const'>Password</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>admin:</span> <span class='int'>1</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='int'>1</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>John</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>email:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>john.example@example.example</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>encrypted_password:</span> <span class='const'>BCrypt</span><span class='op'>::</span><span class='const'>Password</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>admin:</span> <span class='int'>1</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='int'>2</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>David</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>email:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>david.ek@example.example</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>encrypted_password:</span> <span class='const'>BCrypt</span><span class='op'>::</span><span class='const'>Password</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>admin:</span> <span class='int'>0</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='int'>3</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Gustav</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>email:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>gustav@example.example</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>encrypted_password:</span> <span class='const'>BCrypt</span><span class='op'>::</span><span class='const'>Password</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>admin:</span> <span class='int'>0</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='int'>4</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Admin</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>email:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin@admin</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>encrypted_password:</span> <span class='const'>BCrypt</span><span class='op'>::</span><span class='const'>Password</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>admin:</span> <span class='int'>1</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_dataset'>dataset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='lbracket'>[</span><span class='symbol'>:policy</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>title:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Privacy Policy</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;p&gt;We value your data and therefore we do our utmost to store it securely.&lt;br&gt;
@@ -441,10 +441,6 @@
       <pre class="lines">
 
 
-8
-9
-10
-11
 12
 13
 14
@@ -514,10 +510,14 @@
 78
 79
 80
-81</pre>
+81
+82
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/db/seeder.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'bin/db/seeder.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_database!'>reset_database!</span>
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:user</span>
@@ -525,7 +525,6 @@
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:alert</span>
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:post</span>
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:reset_password</span>
-  <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:images</span>
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:classes</span>
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:faq</span>
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:policy</span>
@@ -551,7 +550,7 @@
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:classes</span> <span class='kw'>do</span>
-    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>auto_increment:</span> <span class='kw'>true</span>
+    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
     <span class='const'>String</span> <span class='symbol'>:description</span>
     <span class='const'>String</span> <span class='symbol'>:identifier</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
@@ -559,7 +558,7 @@
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:alert</span> <span class='kw'>do</span>
-    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>auto_increment:</span> <span class='kw'>true</span>
+    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
     <span class='const'>Integer</span> <span class='symbol'>:valid_until</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
     <span class='const'>Integer</span> <span class='symbol'>:valid</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:level</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
@@ -569,13 +568,14 @@
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:post</span> <span class='kw'>do</span>
-    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>auto_increment:</span> <span class='kw'>true</span>
+    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
     <span class='const'>Integer</span> <span class='symbol'>:author_id</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
     <span class='const'>Integer</span> <span class='symbol'>:time_stamp</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
     <span class='const'>String</span> <span class='symbol'>:img_path</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
     <span class='const'>String</span> <span class='symbol'>:img_name</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
     <span class='const'>Integer</span> <span class='symbol'>:class_id</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
+    <span class='const'>File</span> <span class='symbol'>:file</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:reset_password</span> <span class='kw'>do</span>
@@ -584,7 +584,7 @@
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:faq</span> <span class='kw'>do</span>
-    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>auto_increment:</span> <span class='kw'>true</span>
+    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:question</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
     <span class='const'>String</span> <span class='symbol'>:answer</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
@@ -603,7 +603,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jun  3 16:14:23 2020 by
+  Generated on Wed Jun  3 20:39:37 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.6.6).
 </div>
