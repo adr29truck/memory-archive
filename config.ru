@@ -2,7 +2,11 @@
 
 require 'bundler'
 
-Bundler.require
+if ENV['RACK_ENV'] != 'dev'
+  Bundler.require(:default)
+else
+  Bundler.require(:default, :development)
+end
 
 require_relative './bin/server'
 

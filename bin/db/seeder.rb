@@ -3,7 +3,7 @@
 require 'bcrypt'
 require 'sequel'
 
-if ENV['state'] != 'dev'
+if ENV['RACK_ENV'] != 'dev'
   DB = Sequel.connect(ENV['DATABASE_URL'])
 else
   DB = Sequel.sqlite('./bin/db/data.db')

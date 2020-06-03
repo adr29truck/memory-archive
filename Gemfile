@@ -12,6 +12,9 @@ gem 'sassc'
 gem 'sequel'
 gem 'sinatra'
 gem 'slim'
-gem 'sqlite3'
 gem 'thin'
 gem 'wdm'
+
+group :development do
+  gem 'sqlite3'
+end
