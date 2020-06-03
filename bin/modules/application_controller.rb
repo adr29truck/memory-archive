@@ -9,7 +9,12 @@ class ApplicationController
   # Sequel::Model --> user
 
   # Configuration
-  DB = Sequel.sqlite('./bin/db/data.db') # TODO: sqlit3, postgresql or other
+  if ENV['state'] != 'dev'
+    DB = Sequel.connect(ENV['DATABASE_URL'])
+  else
+    DB = Sequel.sqlite('./bin/db/data.db') # TODO: sqlit3, postgresql or other
+  end
+
 
   # Initializes a new instance of an object and sets provided data
   #
