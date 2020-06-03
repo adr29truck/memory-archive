@@ -3,11 +3,11 @@
 require 'bcrypt'
 require 'sequel'
 
-if ENV['RACK_ENV'] != 'dev'
-  DB = Sequel.connect(ENV['DATABASE_URL'])
-else
-  DB = Sequel.sqlite('./bin/db/data.db')
-end
+DB = if ENV['RACK_ENV'] != 'dev'
+       Sequel.connect(ENV['DATABASE_URL'])
+     else
+       Sequel.sqlite('./bin/db/data.db')
+     end
 
 def reset_database!
   DB.drop_table? :user
@@ -20,7 +20,7 @@ def reset_database!
   DB.drop_table? :policy
 
   DB.create_table! :user do
-    Integer :id, primary_key: true
+    Serial :id, primary_key: true
     String :name
     String :email, unique: true
     String :encrypted_password
@@ -28,7 +28,7 @@ def reset_database!
   end
 
   DB.create_table! :policy do
-    Integer :id, primary_key: true
+    Serial :id, primary_key: true
     String :title
     String :body
   end
@@ -40,7 +40,7 @@ def reset_database!
   end
 
   DB.create_table! :classes do
-    Integer :id, primary_key: true, unique: true, serial: true
+    Serial :id, primary_key: true, unique: true, serial: true
     String :name, null: false
     String :description
     String :identifier, null: false
@@ -48,7 +48,7 @@ def reset_database!
   end
 
   DB.create_table! :alert do
-    Integer :id, primary_key: true, unique: true, serial: true
+    Serial :id, primary_key: true, unique: true, serial: true
     Integer :valid_until, null: true
     Integer :valid, null: true
     String :level, null: true
@@ -58,7 +58,7 @@ def reset_database!
   end
 
   DB.create_table! :post do
-    Integer :id, primary_key: true, unique: true, serial: true
+    Serial :id, primary_key: true, unique: true, serial: true
     String :message, null: true
     Integer :author_id, null: false
     Integer :time_stamp, null: false
@@ -74,7 +74,7 @@ def reset_database!
   end
 
   DB.create_table! :faq do
-    Integer :id, primary_key: true, unique: true, serial: true
+    Serial :id, primary_key: true, unique: true, serial: true
     String :question, null: false
     String :answer, null: true
   end
@@ -93,13 +93,13 @@ def insert_data
 
   dataset = DB[:policy]
   dataset.insert(title: 'Privacy Policy', body: '<p>We value your data and therefore we do our utmost to store it securely.<br>
-    We only store the essential personal data required for our service to function as intended. 
-    That means we store the email address associated with your account so that we can come in to contact with you if required and so that you can access your account. 
+    We only store the essential personal data required for our service to function as intended.
+    That means we store the email address associated with your account so that we can come in to contact with you if required and so that you can access your account.
     We store your name as each post is associated with an account. Your password is stored securely in our database using a hashing algorithm.</p>
     <p>Other data received by us is stored with user integrity and privacy in mind.</p>
     <p>If there are additional questions as too how we store your data do not hesitate to contact us.</p>', id: 1)
   dataset.insert(title: 'Cookie Policy', body: '
-    <p>To give you as the visitor the best possible experience on our website, we utilize cookies. Cookies are used so that we can save your interactions and choices made on the website. 
+    <p>To give you as the visitor the best possible experience on our website, we utilize cookies. Cookies are used so that we can save your interactions and choices made on the website.
     <br>In some instances third-parties might place cookies on your device to track statistics of user interactions.</p>
     <p>You can change the settings on your device to avoid us and third-parties from placing cookies on your device. Such settings would cause some functions on our website do not work.<p>
     <h1 class="title is-4">What are cookies?</h4>
@@ -112,13 +112,13 @@ def insert_data
     <p>More information about cookies are available at <a href="https://www.allaboutcookies.org/cookies/">www.allaboutcookies.org</a></p>
     <br>
     <p>All browsers are different. To find information on how to change the settings for cookies look for information in the help function of your browser. You can also manually erase all cookies from your device. This can be done through the browsers settings.</p>', id: 2)
-  dataset.insert(title: 'Terms and Conditions', body: 
+  dataset.insert(title: 'Terms and Conditions', body:
     %{<p>Welcome to Memory Archive!</p>
     <p>These terms and conditions outline the rules and regulations for the use of Memory Archive's Website.</p>
     <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use Memory Archive if you do not agree to take all of the terms and conditions stated on this page.</p>
     <p>The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company’s terms and conditions. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client’s needs in respect of provision of the Company’s stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.</p>
     <h1 class="title is-4"><strong>Cookies</strong></h1>
-    
+
     <p>We employ the use of cookies. By accessing Memory Archive, you agreed to use cookies in agreement with the Memory Archive's <a href="/privacy_policy">Privacy Policy</a> and <a href="/cookie_policy">Cookie Policy</a>.</p>
     <p>Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.</p>
     <h1 class="title is-4"><strong>License</strong></h1>
@@ -191,11 +191,11 @@ def insert_data
         <li>exclude any of our or your liabilities that may not be excluded under applicable law.</li>
     </ul>
     <p>The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.</p>
-    <p>As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.</p>}, id:3)
+    <p>As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.</p>}, id: 3)
 
-    dataset = DB[:faq]
-    dataset.insert(question: 'How do you handle user data?', answer: 'Please see our <a href="/privacy_policy">Privacy Policy</a> and our <a href="/terms_and_conditions">Terms and Conditions</a> for information on how we store your data.<br><br>But in short we value your data a lot and do our outmost to protect it.')
-    dataset.insert(question: 'Do you use cookies?', answer: 'Yes.<br><br>Please read our <a href="/cookie_policy">Cookie Policy</a> for more details as to what we use cookies for.')
+  dataset = DB[:faq]
+  dataset.insert(question: 'How do you handle user data?', answer: 'Please see our <a href="/privacy_policy">Privacy Policy</a> and our <a href="/terms_and_conditions">Terms and Conditions</a> for information on how we store your data.<br><br>But in short we value your data a lot and do our outmost to protect it.')
+  dataset.insert(question: 'Do you use cookies?', answer: 'Yes.<br><br>Please read our <a href="/cookie_policy">Cookie Policy</a> for more details as to what we use cookies for.')
 
   puts 'Inserted data'
 end
