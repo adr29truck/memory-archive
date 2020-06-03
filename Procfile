@@ -1,1 +1,1 @@
-web: rake run
+web: rake production
