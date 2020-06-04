@@ -100,7 +100,11 @@
         <dt id="DB-constant" class="">DB =
           
         </dt>
-        <dd><pre class="code"><span class='const'>Sequel</span><span class='period'>.</span><span class='id identifier rubyid_sqlite'>sqlite</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>./bin/db/data.db</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></pre></dd>
+        <dd><pre class="code"><span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>RACK_ENV</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>dev</span><span class='tstring_end'>&#39;</span></span>
+  <span class='const'>Sequel</span><span class='period'>.</span><span class='id identifier rubyid_connect'>connect</span><span class='lparen'>(</span><span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DATABASE_URL</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>else</span>
+  <span class='const'>Sequel</span><span class='period'>.</span><span class='id identifier rubyid_sqlite'>sqlite</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>./bin/db/data.db</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre></dd>
       
     </dl>
   
@@ -315,13 +319,13 @@
 
   <span class='id identifier rubyid_dataset'>dataset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='lbracket'>[</span><span class='symbol'>:policy</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>title:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Privacy Policy</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;p&gt;We value your data and therefore we do our utmost to store it securely.&lt;br&gt;
-    We only store the essential personal data required for our service to function as intended. 
-    That means we store the email address associated with your account so that we can come in to contact with you if required and so that you can access your account. 
+    We only store the essential personal data required for our service to function as intended.
+    That means we store the email address associated with your account so that we can come in to contact with you if required and so that you can access your account.
     We store your name as each post is associated with an account. Your password is stored securely in our database using a hashing algorithm.&lt;/p&gt;
     &lt;p&gt;Other data received by us is stored with user integrity and privacy in mind.&lt;/p&gt;
     &lt;p&gt;If there are additional questions as too how we store your data do not hesitate to contact us.&lt;/p&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>id:</span> <span class='int'>1</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>title:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cookie Policy</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>
-    &lt;p&gt;To give you as the visitor the best possible experience on our website, we utilize cookies. Cookies are used so that we can save your interactions and choices made on the website. 
+    &lt;p&gt;To give you as the visitor the best possible experience on our website, we utilize cookies. Cookies are used so that we can save your interactions and choices made on the website.
     &lt;br&gt;In some instances third-parties might place cookies on your device to track statistics of user interactions.&lt;/p&gt;
     &lt;p&gt;You can change the settings on your device to avoid us and third-parties from placing cookies on your device. Such settings would cause some functions on our website do not work.&lt;p&gt;
     &lt;h1 class=&quot;title is-4&quot;&gt;What are cookies?&lt;/h4&gt;
@@ -334,13 +338,13 @@
     &lt;p&gt;More information about cookies are available at &lt;a href=&quot;https://www.allaboutcookies.org/cookies/&quot;&gt;www.allaboutcookies.org&lt;/a&gt;&lt;/p&gt;
     &lt;br&gt;
     &lt;p&gt;All browsers are different. To find information on how to change the settings for cookies look for information in the help function of your browser. You can also manually erase all cookies from your device. This can be done through the browsers settings.&lt;/p&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>id:</span> <span class='int'>2</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>title:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Terms and Conditions</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>body:</span> 
+  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>title:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Terms and Conditions</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>body:</span>
     <span class='tstring'><span class='tstring_beg'>%{</span><span class='tstring_content'>&lt;p&gt;Welcome to Memory Archive!&lt;/p&gt;
     &lt;p&gt;These terms and conditions outline the rules and regulations for the use of Memory Archive&#39;s Website.&lt;/p&gt;
     &lt;p&gt;By accessing this website we assume you accept these terms and conditions. Do not continue to use Memory Archive if you do not agree to take all of the terms and conditions stated on this page.&lt;/p&gt;
     &lt;p&gt;The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: &quot;Client&quot;, &quot;You&quot; and &quot;Your&quot; refers to you, the person log on this website and compliant to the Company’s terms and conditions. &quot;The Company&quot;, &quot;Ourselves&quot;, &quot;We&quot;, &quot;Our&quot; and &quot;Us&quot;, refers to our Company. &quot;Party&quot;, &quot;Parties&quot;, or &quot;Us&quot;, refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client’s needs in respect of provision of the Company’s stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.&lt;/p&gt;
     &lt;h1 class=&quot;title is-4&quot;&gt;&lt;strong&gt;Cookies&lt;/strong&gt;&lt;/h1&gt;
-    
+
     &lt;p&gt;We employ the use of cookies. By accessing Memory Archive, you agreed to use cookies in agreement with the Memory Archive&#39;s &lt;a href=&quot;/privacy_policy&quot;&gt;Privacy Policy&lt;/a&gt; and &lt;a href=&quot;/cookie_policy&quot;&gt;Cookie Policy&lt;/a&gt;.&lt;/p&gt;
     &lt;p&gt;Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.&lt;/p&gt;
     &lt;h1 class=&quot;title is-4&quot;&gt;&lt;strong&gt;License&lt;/strong&gt;&lt;/h1&gt;
@@ -413,11 +417,11 @@
         &lt;li&gt;exclude any of our or your liabilities that may not be excluded under applicable law.&lt;/li&gt;
     &lt;/ul&gt;
     &lt;p&gt;The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.&lt;/p&gt;
-    &lt;p&gt;As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.&lt;/p&gt;</span><span class='tstring_end'>}</span></span><span class='comma'>,</span> <span class='label'>id:</span><span class='int'>3</span><span class='rparen'>)</span>
+    &lt;p&gt;As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.&lt;/p&gt;</span><span class='tstring_end'>}</span></span><span class='comma'>,</span> <span class='label'>id:</span> <span class='int'>3</span><span class='rparen'>)</span>
 
-    <span class='id identifier rubyid_dataset'>dataset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='lbracket'>[</span><span class='symbol'>:faq</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>question:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>How do you handle user data?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>answer:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Please see our &lt;a href=&quot;/privacy_policy&quot;&gt;Privacy Policy&lt;/a&gt; and our &lt;a href=&quot;/terms_and_conditions&quot;&gt;Terms and Conditions&lt;/a&gt; for information on how we store your data.&lt;br&gt;&lt;br&gt;But in short we value your data a lot and do our outmost to protect it.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>question:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Do you use cookies?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>answer:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Yes.&lt;br&gt;&lt;br&gt;Please read our &lt;a href=&quot;/cookie_policy&quot;&gt;Cookie Policy&lt;/a&gt; for more details as to what we use cookies for.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dataset'>dataset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='lbracket'>[</span><span class='symbol'>:faq</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>question:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>How do you handle user data?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>answer:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Please see our &lt;a href=&quot;/privacy_policy&quot;&gt;Privacy Policy&lt;/a&gt; and our &lt;a href=&quot;/terms_and_conditions&quot;&gt;Terms and Conditions&lt;/a&gt; for information on how we store your data.&lt;br&gt;&lt;br&gt;But in short we value your data a lot and do our outmost to protect it.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='label'>question:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Do you use cookies?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>answer:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Yes.&lt;br&gt;&lt;br&gt;Please read our &lt;a href=&quot;/cookie_policy&quot;&gt;Cookie Policy&lt;/a&gt; for more details as to what we use cookies for.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Inserted data</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
@@ -530,7 +534,7 @@
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_drop_table?'>drop_table?</span> <span class='symbol'>:policy</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:user</span> <span class='kw'>do</span>
-    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span>
+    <span class='const'>Serial</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:name</span>
     <span class='const'>String</span> <span class='symbol'>:email</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:encrypted_password</span>
@@ -538,7 +542,7 @@
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:policy</span> <span class='kw'>do</span>
-    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span>
+    <span class='const'>Serial</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:title</span>
     <span class='const'>String</span> <span class='symbol'>:body</span>
   <span class='kw'>end</span>
@@ -550,7 +554,7 @@
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:classes</span> <span class='kw'>do</span>
-    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
+    <span class='const'>Serial</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
     <span class='const'>String</span> <span class='symbol'>:description</span>
     <span class='const'>String</span> <span class='symbol'>:identifier</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
@@ -558,7 +562,7 @@
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:alert</span> <span class='kw'>do</span>
-    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
+    <span class='const'>Serial</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
     <span class='const'>Integer</span> <span class='symbol'>:valid_until</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
     <span class='const'>Integer</span> <span class='symbol'>:valid</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:level</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
@@ -568,7 +572,7 @@
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:post</span> <span class='kw'>do</span>
-    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
+    <span class='const'>Serial</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
     <span class='const'>Integer</span> <span class='symbol'>:author_id</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
     <span class='const'>Integer</span> <span class='symbol'>:time_stamp</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
@@ -584,7 +588,7 @@
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="#DB-constant" title="DB (constant)">DB</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_table!'>create_table!</span> <span class='symbol'>:faq</span> <span class='kw'>do</span>
-    <span class='const'>Integer</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
+    <span class='const'>Serial</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>primary_key:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>unique:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>serial:</span> <span class='kw'>true</span>
     <span class='const'>String</span> <span class='symbol'>:question</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
     <span class='const'>String</span> <span class='symbol'>:answer</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
@@ -603,7 +607,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jun  3 21:28:49 2020 by
+  Generated on Thu Jun  4 07:30:11 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.6.6).
 </div>
