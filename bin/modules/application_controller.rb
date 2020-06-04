@@ -9,12 +9,11 @@ class ApplicationController
   # Sequel::Model --> user
 
   # Configuration
-  if ENV['RACK_ENV'] == 'production'
-    DB = Sequel.connect(ENV['DATABASE_URL'])
-  else
-    DB = Sequel.sqlite('./bin/db/data.db') # TODO: sqlit3, postgresql or other
-  end
-
+  DB = if ENV['RACK_ENV'] == 'production'
+         Sequel.connect(ENV['DATABASE_URL'])
+       else
+         Sequel.sqlite('./bin/db/data.db') # TODO: sqlit3, postgresql or other
+       end
 
   # Initializes a new instance of an object and sets provided data
   #
@@ -140,6 +139,7 @@ class ApplicationController
       p self
       # Object is inserted into database
       DB.transaction do
+        hash.delete(:id)
         dataset.insert(hash)
         # Retrives the new id
         if self.class.columns.include?(:id)
