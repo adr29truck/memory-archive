@@ -135,13 +135,9 @@ class ApplicationController
       # Object has a id and thereby is only updated
       dataset.where(id: id).update(hash)
     else
-      p self
       # Object is inserted into database
       DB.transaction do
         hash.delete('id')
-        p '_____________'
-        p hash
-        p '_____________'
         dataset.insert(hash)
         # Retrives the new id
         if self.class.columns.include?(:id)
