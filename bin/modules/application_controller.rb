@@ -138,7 +138,7 @@ class ApplicationController
       p self
       # Object is inserted into database
       DB.transaction do
-        hash.delete(:id)
+        hash.delete('id')
         p '_____________'
         p hash
         p '_____________'
