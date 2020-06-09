@@ -150,6 +150,10 @@ figure {
   height: 100% !important;
 }
 
+.slider .slides li img {
+  width: initial;
+  max-width: initial;
+}
 // Alerts
 .alerts {
   position: fixed;
