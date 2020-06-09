@@ -51,6 +51,7 @@
   .submit {
     width: 90%;
     height: initial;
+
     .form {
       width: 100%;
       max-width: 100% !important;
@@ -150,10 +151,18 @@ figure {
   height: 100% !important;
 }
 
-.slider .slides li img {
-  width: initial;
-  max-width: initial;
+.slider .slides li div {
+  min-width: 100vw;
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  div { // Text elements
+    min-width: initial;
+    min-height: initial;
+  }
 }
+
 // Alerts
 .alerts {
   position: fixed;
