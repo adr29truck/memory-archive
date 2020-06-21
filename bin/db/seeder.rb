@@ -2,8 +2,11 @@
 
 require 'bcrypt'
 require 'sequel'
+require 'dotenv'
 
-DB = if ENV['RACK_ENV'] != 'dev'
+Dotenv.load
+
+DB = if ENV['RACK_ENV'] == 'production'
        Sequel.connect(ENV['DATABASE_URL'])
      else
        Sequel.sqlite('./bin/db/data.db')
@@ -86,10 +89,10 @@ end
 
 def insert_data
   dataset = DB[:user]
-  dataset.insert(id: 1, name: 'John', email: 'john.example@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 1)
-  dataset.insert(id: 2, name: 'David', email: 'david.ek@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 0)
-  dataset.insert(id: 3, name: 'Gustav', email: 'gustav@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 0)
-  dataset.insert(id: 4, name: 'Admin', email: 'admin@admin', encrypted_password: BCrypt::Password.create('admin'), admin: 1)
+  dataset.insert(name: 'John', email: 'john.example@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 1)
+  dataset.insert(name: 'David', email: 'david.ek@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 0)
+  dataset.insert(name: 'Gustav', email: 'gustav@example.example', encrypted_password: BCrypt::Password.create('admin'), admin: 0)
+  dataset.insert(name: 'Admin', email: 'admin@admin', encrypted_password: BCrypt::Password.create('admin'), admin: 1)
 
   dataset = DB[:policy]
   dataset.insert(title: 'Privacy Policy', body: '<p>We value your data and therefore we do our utmost to store it securely.<br>

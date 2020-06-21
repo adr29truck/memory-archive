@@ -137,7 +137,9 @@ class Server < Sinatra::Base
       user = User.create params
       user.save
       session[:user_id] = user.id
-      redirect '/' if session[:reverse].nil? || session[:reverse].include?('/login') || session[:reverse].include?('/register')
+      if session[:reverse].nil? || session[:reverse].include?('/login') || session[:reverse].include?('/register')
+        redirect '/'
+      end
       redirect session[:reverse]
     else
       session[:error_message] = 'There is already an account with that email adress registered. Have you forgotten your password?'
@@ -215,7 +217,6 @@ class Server < Sinatra::Base
       redirect back
     end
   end
-
 
   get '/new_password' do
     @identifier = params['identifier']
@@ -328,9 +329,7 @@ class Server < Sinatra::Base
 
   post '/admin/faq/save-question' do
     if @super_admin
-      if params.include?('id')
-        params['id'] = params['id'].to_i
-      end
+      params['id'] = params['id'].to_i if params.include?('id')
       params['answer'] = params['answer'].gsub(/\R+/, '<br><br>')
       new_question = Faq.new(params)
       new_question.save
@@ -575,7 +574,7 @@ class Server < Sinatra::Base
     slim :policy
   end
 
-  get '/privacy_policy' do 
+  get '/privacy_policy' do
     @policy = Policy.privacy_policy
     slim :policy
   end

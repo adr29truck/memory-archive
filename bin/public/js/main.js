@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
   // init Infinite Scroll
   $('.article-feed').infiniteScroll({
     path: '.pagination__next',
@@ -72,23 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
   $('.collapsible').collapsible();
   $('.tap-target').tapTarget();
 
-  // Fetch higher res images if not on mobile
-  // TODO: Make the transition smooth
-  // The new image should display first when fully fetched
-  $(function () {
-    let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
-
-    if (isMobile == false) {
-
-      $('.slides > li > img').each(function (el) {
-        if (el.backgroundImage == 'url(/img/hero_festival-min.jpg)') {
-          el.src = 'url(/img/hero_festival.jpg)'
-        } else if (el.backgroundImage == 'url(/img/hero_sunset-min.jpg)') {
-          el.src = 'url(/img/hero_sunset.jpg)'
-        }
-      })
-    }
-  });
 });
 
 function modalToggle() {
@@ -116,12 +98,10 @@ function hideModal(el) {
 }
 
 function flash(elem) {
-  console.log('FLAAASH')
   $(elem)[0].classList.remove('alert-initial')
 }
 
 function getFileData(myFile) {
-
   var filename = myFile.files[0].name;
   if (myFile.files.length > 1) {
     filename += " +"
@@ -131,11 +111,9 @@ function getFileData(myFile) {
   $(myFile).parent().find('.file-label')[0].innerHTML = filename
 }
 
-
 function expandNav(el) {
   $(el).parent().children()[1].classList.toggle('expanded')
 }
-
 
 function hideAlert(el) {
   $(el).parent().parent()[0].outerHTML = ''
