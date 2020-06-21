@@ -19,4 +19,5 @@ gem 'thin'
 
 group :development do
   gem 'sqlite3'
+  gem 'wdm'
 end
