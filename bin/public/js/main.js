@@ -120,5 +120,6 @@ function hideAlert(el) {
 }
 
 $('#textarea1').val('New Text');
+if ($('#textarea1') != null) {
   M.textareaAutoResize($('#textarea1'));
-
+}
