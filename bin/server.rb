@@ -42,8 +42,8 @@ class Server < Sinatra::Base
 
   get '/' do
     @path = '/'
-
-    if !params[:group_id].nil? && UserClass.where(user_id: @logged_in, class_id: params[:group_id]).all.length == 1
+    if !params[:group_id].nil? && UserClass.where(user_id: @logged_in,
+       class_id: params[:group_id]).all.length == 1
       @class_id = params[:group_id]
       session[:class_id] = @class_id
     end
@@ -71,7 +71,6 @@ class Server < Sinatra::Base
         post.author = 'Removed' if post.author.nil?
       end
     end
-
     slim :index
   end
 
@@ -106,7 +105,8 @@ class Server < Sinatra::Base
       session[:error_message] = 'No user with those details exists.'
       redirect '/login'
     end
-    if session[:reverse].nil? || session[:reverse].include?('/login') || session[:reverse].include?('/new_password')
+    if session[:reverse].nil? || session[:reverse].include?('/login') ||
+       session[:reverse].include?('/new_password')
       redirect '/'
     end
     session[:reverse] = nil
@@ -137,12 +137,14 @@ class Server < Sinatra::Base
       user = User.create params
       user.save
       session[:user_id] = user.id
-      if session[:reverse].nil? || session[:reverse].include?('/login') || session[:reverse].include?('/register')
+      if session[:reverse].nil? || session[:reverse].include?('/login') ||
+         session[:reverse].include?('/register')
         redirect '/'
       end
       redirect session[:reverse]
     else
-      session[:error_message] = 'There is already an account with that email adress registered. Have you forgotten your password?'
+      session[:error_message] = 'There is already an account with that email
+      adress registered. Have you forgotten your password?'
       redirect '/login'
     end
   end
@@ -153,32 +155,49 @@ class Server < Sinatra::Base
         group = @groups.select { |e| e if e.id == @class_id }.first
 
         non_html = "You have been invited to #{group.name}" \
-                  'To join register an account if you do not already have one and then use the link below' \
+                  'To join register an account if you do not already have one
+                  and then use the link below' \
                   " #{ENV['URL']}/group/join?identifier=#{group.identifier}"
-        body = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+        body = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
+        'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
           <html xmlns='http://www.w3.org/1999/xhtml'>
           <head>
-            <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+            <meta http-equiv='Content-Type' content='text/html;
+            charset=UTF-8' />
             <title>Memory Archive</title>
-            <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+            <meta name='viewport'
+            content='width=device-width, initial-scale=1.0'/>
             </head>
             <body style='width: 100%;'>
-            <div style='width: 100%; height: 10vh; max-height: 100px; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
+            <div style='width: 100%; height: 10vh;
+            max-height: 100px;
+            background-position: center center; background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
             </div>
               <div>
                 <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
                   <h1 style='text-align: center; width: 100%;'>Memory Archive </h1>
                   <div style='height: 30px;'></div>
                   <h2 style='text-align: center; width: 100%;'>Group Invite</h2>
-                  <h3 style='text-align: center;'>You have been invited to #{group.name}</h3>
-                  <p style='text-align: center;'>To join register an account if you do not already have one by visiting <a href='#{ENV['URL']}/register' style='font-weight: bold;'>Memory Archive</a>. Then use <a href='#{ENV['URL']}/group/join?identifier=#{group.identifier}'>This link</a> or the code below to join.</p>
+                  <h3 style='text-align: center;'>You have been invited to
+                  #{group.name}</h3>
+                  <p style='text-align: center;'>To join register an account if
+                  you do not already have one by visiting
+                    <a href='#{ENV['URL']}/register'
+                    style='font-weight: bold;'>Memory Archive</a>. Then use
+                    <a href='#{ENV['URL']}/group/join?identifier
+                    =#{group.identifier}'>
+                    This link</a> or the code below to join.</p>
                   <div class='group_code' style='margin:auto auto; padding:1em 20px'>
                     <h2 style='width: 100%; text-align: center;'> Group code</h2>
-                    <h2 class='subtilte' style='background: lightgrey; padding: 4px; text-align: center;'> #{group.identifier}</h2>
+                    <h2 class='subtilte' style='background: lightgrey;
+                    padding: 4px; text-align: center;'> #{group.identifier}</h2>
                   </div>
                 </div>
                 <footer style='width: 100%; padding: 0.5em;'>
-                    <p style='width: 100%; text-align: center;'>If you do not want to join you can ignore this email.</p>
+                    <p style='width: 100%; text-align: center;'>If you do not
+                       want to join you can ignore this email.</p>
                 </footer>
               </div>
             </body>
@@ -204,7 +223,8 @@ class Server < Sinatra::Base
           )
         end
 
-        session[:error_message] = 'A email with details on how to join has been sent to the provided adresses.'
+        session[:error_message] = 'A email with details on how to join has been
+                                  sent to the provided adresses.'
         session[:error_severity] = 'valid'
       rescue StandardError
         session[:error] = 'Something went wrong. Try again'
@@ -265,23 +285,30 @@ class Server < Sinatra::Base
           <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
           </head>
           <body style='width: 100%;'>
-          <div style='width: 100%; height: 10vh; max-height: 100px; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
+          <div style='width: 100%; height: 10vh; max-height: 100px;
+          background-position: center center; background-repeat: no-repeat;
+          background-size: cover; background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
           </div>
             <div>
               <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
                 <h1 style='text-align: center; width: 100%;'>Memmory Archive </h1>
                 <div style='height: 30px;'></div>
                 <h2 style='text-align: center; width: 100%;'>Password Reset </h2>
-                <p style='text-align: center;'>Someone requested that the password for an account associated with your email should be changed.<p>
-                <p style='text-align: center;'>Reset your password by pressing <a href='#{ENV['URL']}/new_password?identifier=#{identifier}' style='font-weight: bold;'>here</a></p>
+                <p style='text-align: center;'>Someone requested that the password
+                for an account associated with your email should be changed.<p>
+                <p style='text-align: center;'>Reset your password by pressing
+                <a href='#{ENV['URL']}/new_password?identifier=#{identifier}' style='font-weight: bold;'>here</a></p>
               </div>
               <footer style='width: 100%; padding: 0.5em;'>
-                  <p style='width: 100%; text-align: center;'>If you did not request a password reset you can ignore this email.</p>
+                  <p style='width: 100%; text-align: center;'>If you did not
+                  request a password reset you can ignore this email.</p>
               </footer>
             </div>
           </body>
         </html>"
-      non_html = "Memmory Archive\nReset your password by visiting  #{ENV['URL']}/new_password?identifier=#{identifier} \nIf you did not request a password reset you do not have to take any further action."
+      non_html = "Memmory Archive\nReset your password by visiting
+      #{ENV['URL']}/new_password?identifier=#{identifier} \nIf you did not
+      request a password reset you do not have to take any further action."
 
       begin
         Pony.mail(
@@ -302,7 +329,8 @@ class Server < Sinatra::Base
             # The HELO domain provided by the client to the server
           }
         )
-        session[:error_message] = 'A email with details on how to reset your password has been sent to the given email address'
+        session[:error_message] = 'A email with details on how to reset your
+        password has been sent to the given email address'
         session[:error_severity] = 'valid'
       rescue StandardError
         session[:error] = 'Something went wrong. Try again'
@@ -389,7 +417,9 @@ class Server < Sinatra::Base
           f.write(tempfile.read)
         end
 
-        x = Post.new(message: params[:message], author_id: session[:user_id], time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename, class_id: @class_id)
+        x = Post.new(message: params[:message], author_id: session[:user_id],
+                     time_stamp: DateTime.now.to_time.to_i, img_path: path, img_name: filename,
+                     class_id: @class_id)
         x.save
       rescue StandardError
         session[:error_message] = 'Something went wrong. Try again.'
@@ -485,11 +515,10 @@ class Server < Sinatra::Base
       z.save
 
       session[:class_id] = x.id
-      redirect '/'
     else
       session[:error_message] = 'Not signed in'
-      redirect '/'
     end
+    redirect '/'
   end
 
   # TODO:
@@ -519,7 +548,9 @@ class Server < Sinatra::Base
         <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
         </head>
         <body style='width: 100%;'>
-        <div style='width: 100%; height: 10vh; max-height: 100px; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
+        <div style='width: 100%; height: 10vh; max-height: 100px;
+        background-position: center center; background-repeat: no-repeat;
+        background-size: cover; background-image: url(#{ENV['URL']}/img/hero_default-min.jpg);'>
         </div>
           <div>
             <div style='padding: 40px; background: rgba(0,0,0,0.1)'>
@@ -533,7 +564,8 @@ class Server < Sinatra::Base
           </div>
         </body>
       </html>"
-    non_html = "Someone asked the following question:\n #{params['question']}\n\nWith the email #{params['email']}"
+    non_html = "Someone asked the following question:\n #{params['question']}\n
+    \nWith the email #{params['email']}"
 
     begin
       Pony.mail(
@@ -554,7 +586,8 @@ class Server < Sinatra::Base
           # The HELO domain provided by the client to the server
         }
       )
-      session[:error_message] = 'An email with your question has been sent to us and we will try to get back to you as fast as possible'
+      session[:error_message] = 'An email with your question has been sent to us
+       and we will try to get back to you as fast as possible'
       session[:error_severity] = 'valid'
     rescue StandardError
       session[:error] = 'Something went wrong. Try again'
